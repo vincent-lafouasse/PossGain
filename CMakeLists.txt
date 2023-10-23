@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.16)
 
 project(PossDSP)
 
+set (CMAKE_CXX_STANDARD 17)
+
 #This is temporarily needed due to a bug in Xcode 15:
 if (CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
     if (NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "15.0")
@@ -49,7 +51,7 @@ add_subdirectory(Modules)
 
 if (${BUILD_JUCE_PROTOTYPE_EXAMPLES})
     #adding project folders:
-    add_subdirectory(Apps)
+	#add_subdirectory(Apps)
     add_subdirectory(Plugins)
 endif ()
 
