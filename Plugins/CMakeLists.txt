@@ -5,3 +5,5 @@ add_subdirectory(MinimalPluginTemplate)
 add_subdirectory(MidiFXTemplate)
 add_subdirectory(MaxParametersPlugin)
 add_subdirectory(DummySynth)
+
+add_subdirectory(PossFilter)
