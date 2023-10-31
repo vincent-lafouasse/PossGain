@@ -1,7 +1,7 @@
 #include "PluginProcessor.h"
 
-void PossFilterPlugin::processBlock(juce::AudioBuffer<float>& buffer,
-                                      juce::MidiBuffer& midiMessages)
+void PossFilterProcessor::processBlock(juce::AudioBuffer<float>& buffer,
+                                       juce::MidiBuffer& midiMessages)
 {
     juce::ignoreUnused(midiMessages);
     buffer.clear();
@@ -9,5 +9,5 @@ void PossFilterPlugin::processBlock(juce::AudioBuffer<float>& buffer,
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new PossFilterPlugin();
+    return new PossFilterProcessor();
 }

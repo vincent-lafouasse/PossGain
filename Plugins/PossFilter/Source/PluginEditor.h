@@ -5,7 +5,7 @@
 class PossFilterEditor : public juce::AudioProcessorEditor
 {
 public:
-    explicit PossFilterEditor(PossFilterPlugin&);
+    explicit PossFilterEditor(PossFilterProcessor&);
 
 private:
     void paint(juce::Graphics&) override;

@@ -1,8 +1,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
-PossFilterEditor::PossFilterEditor(
-    PossFilterPlugin& p)
+PossFilterEditor::PossFilterEditor(PossFilterProcessor& p)
     : AudioProcessorEditor(&p)
 {
     addAndMakeVisible(editor);

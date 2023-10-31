@@ -5,7 +5,7 @@
 //Inhereting from PluginHelpers::ProcessorBase, which is just inhereting from juce::AudioProcessor
 //And adding some default implementations
 
-class PossFilterPlugin : public PluginHelpers::ProcessorBase
+class PossFilterProcessor : public PluginHelpers::ProcessorBase
 {
 public:
     void processBlock(juce::AudioBuffer<float>& buffer,
