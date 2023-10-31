@@ -7,7 +7,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     buffer.clear();
 }
 
-juce::AudioProcessor* JUCE_CALLTYPE createPluginGain()
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PossGainProcessor();
 }
