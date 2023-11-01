@@ -16,7 +16,15 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize(400, 300);
+    setSize(200, 400);
+
+    gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    gainSlider.setTextBoxStyle(
+        juce::Slider::TextEntryBoxPosition::TextBoxBelow, true, 100, 25);
+    gainSlider.setRange(-48.0f, 0.0f);
+    gainSlider.setValue(-6.0f);
+    gainSlider.addListener(this);
+    addAndMakeVisible(gainSlider);
 }
 
 PossGainEditor::~PossGainEditor()
@@ -28,14 +36,17 @@ void PossGainEditor::paint(juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
-    g.setColour(juce::Colours::white);
-    g.setFont(15.0f);
-    g.drawFittedText("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void PossGainEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    gainSlider.setBounds(getLocalBounds());
+}
+
+void PossGainEditor::sliderValueChanged(juce::Slider* slider)
+{
+    if (slider == &gainSlider)
+    {
+        audioProcessor.gain = pow(10, gainSlider.getValue() / 20);
+    }
 }
