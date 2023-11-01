@@ -9,6 +9,7 @@
 #pragma once
 
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
+#include <array>
 
 //==============================================================================
 /**
@@ -58,6 +59,9 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
 
 	std::atomic<double> linearGain;
+	double a;
+	double b;
+	std::array<double, 2> z;
 
 private:
     //==============================================================================

@@ -22,7 +22,7 @@ PossGainProcessor::PossGainProcessor()
     )
 
 #endif
-, linearGain(0)
+, linearGain(0), a(0.9), b(0.1), z({0, 0})
 {
 }
 
@@ -34,17 +34,21 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    size_t totalNumInputChannels = static_cast<size_t>(getTotalNumInputChannels());
+    size_t totalNumOutputChannels = static_cast<size_t>(getTotalNumOutputChannels());
 
 
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+	double localGain = linearGain.load();
+
+
+    for (size_t channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer(channel);
 
-        for (int sample = 0; sample < buffer.getNumSamples(); sample++)
+        for (size_t sample = 0; sample < buffer.getNumSamples(); sample++)
         {
-            channelData[sample] = linearGain * buffer.getSample(channel, sample);
+			z[channel] = a * localGain + b * z[channel];
+            channelData[sample] = z[channel] * channelData[sample];
         }
     }
 }
