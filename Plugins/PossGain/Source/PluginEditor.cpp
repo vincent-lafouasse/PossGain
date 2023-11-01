@@ -47,6 +47,6 @@ void PossGainEditor::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &gainSlider)
     {
-        audioProcessor.linearGain = pow(10, gainSlider.getValue() / 20);
+        audioProcessor.linearGain.store(pow(10, gainSlider.getValue() / 20));
     }
 }

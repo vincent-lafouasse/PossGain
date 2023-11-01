@@ -20,7 +20,9 @@ PossGainProcessor::PossGainProcessor()
                          .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
     )
+
 #endif
+, linearGain(0)
 {
 }
 
@@ -34,6 +36,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
+
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
