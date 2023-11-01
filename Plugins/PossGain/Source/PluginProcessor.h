@@ -58,7 +58,7 @@ public:
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
-	std::atomic<double> linearGain;
+	std::atomic<float> linearGain;
 	double a;
 	double b;
 	std::array<double, 2> z;

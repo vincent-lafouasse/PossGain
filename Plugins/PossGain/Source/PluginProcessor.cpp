@@ -43,7 +43,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
     for (size_t channel = 0; channel < totalNumInputChannels; ++channel)
     {
-        auto* channelData = buffer.getWritePointer(channel);
+        auto* channelData = buffer.getWritePointer(static_cast<int>(channel));
 
         for (size_t sample = 0; sample < buffer.getNumSamples(); sample++)
         {
