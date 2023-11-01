@@ -41,7 +41,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
         for (int sample = 0; sample < buffer.getNumSamples(); sample++)
         {
-            channelData[sample] = gain * buffer.getSample(channel, sample);
+            channelData[sample] = linearGain * buffer.getSample(channel, sample);
         }
     }
 }
