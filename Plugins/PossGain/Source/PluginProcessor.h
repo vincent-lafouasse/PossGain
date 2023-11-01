@@ -61,7 +61,7 @@ public:
 	std::atomic<float> linearGain;
 	double a;
 	double b;
-	std::array<double, 2> z;
+	std::array<float, 2> z;
 
 private:
     //==============================================================================
