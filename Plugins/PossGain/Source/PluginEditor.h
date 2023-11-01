@@ -14,11 +14,11 @@
 //==============================================================================
 /**
 */
-class PossGainAudioProcessorEditor : public juce::AudioProcessorEditor
+class PossGainEditor : public juce::AudioProcessorEditor
 {
 public:
-    PossGainAudioProcessorEditor(PossGainAudioProcessor&);
-    ~PossGainAudioProcessorEditor() override;
+    PossGainEditor(PossGainProcessor&);
+    ~PossGainEditor() override;
 
     //==============================================================================
     void paint(juce::Graphics&) override;
@@ -27,7 +27,7 @@ public:
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    PossGainAudioProcessor& audioProcessor;
+    PossGainProcessor& audioProcessor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainEditor)
 };

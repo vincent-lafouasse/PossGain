@@ -10,7 +10,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-PossGainAudioProcessor::PossGainAudioProcessor()
+PossGainProcessor::PossGainProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(BusesProperties()
 #if !JucePlugin_IsMidiEffect
@@ -24,17 +24,17 @@ PossGainAudioProcessor::PossGainAudioProcessor()
 {
 }
 
-PossGainAudioProcessor::~PossGainAudioProcessor()
+PossGainProcessor::~PossGainProcessor()
 {
 }
 
 //==============================================================================
-const juce::String PossGainAudioProcessor::getName() const
+const juce::String PossGainProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool PossGainAudioProcessor::acceptsMidi() const
+bool PossGainProcessor::acceptsMidi() const
 {
 #if JucePlugin_WantsMidiInput
     return true;
@@ -43,7 +43,7 @@ bool PossGainAudioProcessor::acceptsMidi() const
 #endif
 }
 
-bool PossGainAudioProcessor::producesMidi() const
+bool PossGainProcessor::producesMidi() const
 {
 #if JucePlugin_ProducesMidiOutput
     return true;
@@ -52,7 +52,7 @@ bool PossGainAudioProcessor::producesMidi() const
 #endif
 }
 
-bool PossGainAudioProcessor::isMidiEffect() const
+bool PossGainProcessor::isMidiEffect() const
 {
 #if JucePlugin_IsMidiEffect
     return true;
@@ -61,50 +61,50 @@ bool PossGainAudioProcessor::isMidiEffect() const
 #endif
 }
 
-double PossGainAudioProcessor::getTailLengthSeconds() const
+double PossGainProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int PossGainAudioProcessor::getNumPrograms()
+int PossGainProcessor::getNumPrograms()
 {
     return 1; // NB: some hosts don't cope very well if you tell them there are 0 programs,
         // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int PossGainAudioProcessor::getCurrentProgram()
+int PossGainProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void PossGainAudioProcessor::setCurrentProgram(int index)
+void PossGainProcessor::setCurrentProgram(int index)
 {
 }
 
-const juce::String PossGainAudioProcessor::getProgramName(int index)
+const juce::String PossGainProcessor::getProgramName(int index)
 {
     return {};
 }
 
-void PossGainAudioProcessor::changeProgramName(int index, const juce::String& newName)
+void PossGainProcessor::changeProgramName(int index, const juce::String& newName)
 {
 }
 
 //==============================================================================
-void PossGainAudioProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
+void PossGainProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
 }
 
-void PossGainAudioProcessor::releaseResources()
+void PossGainProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool PossGainAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
+bool PossGainProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
 {
 #if JucePlugin_IsMidiEffect
     juce::ignoreUnused(layouts);
@@ -129,7 +129,7 @@ bool PossGainAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) 
 }
 #endif
 
-void PossGainAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
+void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                           juce::MidiBuffer& midiMessages)
 {
     juce::ScopedNoDenormals noDenormals;
@@ -160,25 +160,25 @@ void PossGainAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 }
 
 //==============================================================================
-bool PossGainAudioProcessor::hasEditor() const
+bool PossGainProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-juce::AudioProcessorEditor* PossGainAudioProcessor::createEditor()
+juce::AudioProcessorEditor* PossGainProcessor::createEditor()
 {
-    return new PossGainAudioProcessorEditor(*this);
+    return new PossGainEditor(*this);
 }
 
 //==============================================================================
-void PossGainAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
+void PossGainProcessor::getStateInformation(juce::MemoryBlock& destData)
 {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
 }
 
-void PossGainAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
+void PossGainProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
@@ -188,5 +188,5 @@ void PossGainAudioProcessor::setStateInformation(const void* data, int sizeInByt
 // This creates new instances of the plugin..
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new PossGainAudioProcessor();
+    return new PossGainProcessor();
 }

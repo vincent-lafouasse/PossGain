@@ -13,7 +13,7 @@
 //==============================================================================
 /**
 */
-class PossGainAudioProcessor
+class PossGainProcessor
     : public juce::AudioProcessor
 #if JucePlugin_Enable_ARA
     , public juce::AudioProcessorARAExtension
@@ -21,8 +21,8 @@ class PossGainAudioProcessor
 {
 public:
     //==============================================================================
-    PossGainAudioProcessor();
-    ~PossGainAudioProcessor() override;
+    PossGainProcessor();
+    ~PossGainProcessor() override;
 
     //==============================================================================
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
@@ -59,5 +59,5 @@ public:
 
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainProcessor)
 };
