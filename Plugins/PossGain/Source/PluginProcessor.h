@@ -59,8 +59,8 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
 
 	std::atomic<float> linearGain;
-	double a;
-	double b;
+	float a;
+	float b;
 	std::array<float, 2> z;
 
 private:

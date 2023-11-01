@@ -38,14 +38,14 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     size_t totalNumOutputChannels = static_cast<size_t>(getTotalNumOutputChannels());
 
 
-	double localGain = linearGain.load();
+	float localGain = linearGain.load();
 
 
     for (size_t channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer(static_cast<int>(channel));
 
-        for (size_t sample = 0; sample < buffer.getNumSamples(); sample++)
+        for (size_t sample = 0; sample < static_cast<size_t>(buffer.getNumSamples()); sample++)
         {
 			z[channel] = a * localGain + b * z[channel];
             channelData[sample] = z[channel] * channelData[sample];
