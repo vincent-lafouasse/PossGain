@@ -19,10 +19,13 @@ PossGainProcessor::PossGainProcessor()
 #endif
                          .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
-    )
+                         )
 
 #endif
-, linearGain(0), a(0.9), b(0.1), z({0, 0})
+    , linearGain(0)
+    , a(0.9)
+    , b(0.1)
+    , z({0, 0})
 {
 }
 
@@ -30,24 +33,22 @@ PossGainProcessor::~PossGainProcessor()
 {
 }
 
-void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
-                                     juce::MidiBuffer& midiMessages)
+void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer&)
 {
     juce::ScopedNoDenormals noDenormals;
     size_t totalNumInputChannels = static_cast<size_t>(getTotalNumInputChannels());
-    size_t totalNumOutputChannels = static_cast<size_t>(getTotalNumOutputChannels());
+    //size_t totalNumOutputChannels = static_cast<size_t>(getTotalNumOutputChannels());
 
-
-	float localGain = linearGain.load();
-
+    float localGain = linearGain.load();
 
     for (size_t channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer(static_cast<int>(channel));
 
-        for (size_t sample = 0; sample < static_cast<size_t>(buffer.getNumSamples()); sample++)
+        for (size_t sample = 0; sample < static_cast<size_t>(buffer.getNumSamples());
+             sample++)
         {
-			z[channel] = a * localGain + b * z[channel];
+            z[channel] = a * localGain + b * z[channel];
             channelData[sample] = z[channel] * channelData[sample];
         }
     }
