@@ -8,6 +8,7 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "StereoSignalSmoother.hpp"
 
 //==============================================================================
 PossGainProcessor::PossGainProcessor()
@@ -23,9 +24,6 @@ PossGainProcessor::PossGainProcessor()
 
 #endif
     , linearGain(0)
-    , a(0.9)
-    , b(0.1)
-    , z({0, 0})
 {
 }
 
@@ -39,7 +37,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::Mid
     size_t totalNumInputChannels = static_cast<size_t>(getTotalNumInputChannels());
     //size_t totalNumOutputChannels = static_cast<size_t>(getTotalNumOutputChannels());
 
-    float localGain = linearGain.load();
+    smoothedGain.setTarget(linearGain.load());
 
     for (size_t channel = 0; channel < totalNumInputChannels; ++channel)
     {
@@ -48,8 +46,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::Mid
         for (size_t sample = 0; sample < static_cast<size_t>(buffer.getNumSamples());
              sample++)
         {
-            z[channel] = a * localGain + b * z[channel];
-            channelData[sample] = z[channel] * channelData[sample];
+            channelData[sample] = smoothedGain.get(channel) * channelData[sample];
         }
     }
 }
