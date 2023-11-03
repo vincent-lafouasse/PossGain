@@ -59,7 +59,7 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
 
     std::atomic<float> linearGain;
-    StereoSignalSmoother smoothedGain;
+    StereoSignalSmoother<float> smoothedGain;
 
 private:
     //==============================================================================

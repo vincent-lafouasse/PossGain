@@ -2,6 +2,7 @@
 
 #include <array>
 
+template <typename T>
 class StereoSignalSmoother
 {
 public:
@@ -12,7 +13,7 @@ public:
         , memory({0, 0})
     {
     }
-    void setTarget(float newTarget) { this->target = newTarget; }
+    void setTarget(T newTarget) { this->target = newTarget; }
     void advance(size_t channel)
     {
         memory[channel] = forwardWeight * target + inertiaWeight * memory[channel];
@@ -24,8 +25,8 @@ public:
     }
 
 private:
-    float target;
-    float forwardWeight;
-    float inertiaWeight;
-    std::array<float, 2> memory;
+    T target;
+    T forwardWeight;
+    T inertiaWeight;
+    std::array<T, 2> memory;
 };
