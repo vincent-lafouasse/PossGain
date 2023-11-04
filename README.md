@@ -4,6 +4,16 @@ Only the best
 
 Special thanks to @eyalamirmusic for the project template, and @sammithy for the guidance
 
+## Plugins
+
+- PossGain, a revolutionary plugin to control a signal's gain which will help you with proper gain staging.
+
+### To do
+
+- PossNoiseGate, so you can control your signal's makeup.
+- PossFilter, a toggleable highpass/lowpass filter with basic controls.
+- PossEQ, a more elaborate tool with HPF, LPF, shelves and bells.
+
 ## JUCE CMake Repo Prototype
 A prototype to model a way to create an entire repo using JUCE 6 and CMake.
 
