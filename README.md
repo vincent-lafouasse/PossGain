@@ -1,6 +1,6 @@
 # PossDSP
 
-Only the best
+very cool plugins
 
 Special thanks to @eyalamirmusic for the project template, and @sammithy for the guidance
 
