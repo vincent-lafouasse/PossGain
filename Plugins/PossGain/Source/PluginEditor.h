@@ -32,7 +32,7 @@ private:
     // access the processor object that created it.
     PossGainProcessor& audioProcessor;
 
-    juce::Slider gainSlider;
+    juce::Slider logGainSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainEditor)
 };

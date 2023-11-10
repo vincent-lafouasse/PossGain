@@ -18,13 +18,13 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     // editor's size to whatever you need it to be.
     setSize(200, 400);
 
-    gainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
-    gainSlider.setTextBoxStyle(
+    logGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    logGainSlider.setTextBoxStyle(
         juce::Slider::TextEntryBoxPosition::TextBoxBelow, true, 100, 25);
-    gainSlider.setRange(-48.0f, 0.0f);
-    gainSlider.setValue(-6.0f);
-    gainSlider.addListener(this);
-    addAndMakeVisible(gainSlider);
+    logGainSlider.setRange(-48.0f, 0.0f);
+    logGainSlider.setValue(-6.0f);
+    logGainSlider.addListener(this);
+    addAndMakeVisible(logGainSlider);
 }
 
 PossGainEditor::~PossGainEditor()
@@ -40,13 +40,14 @@ void PossGainEditor::paint(juce::Graphics& g)
 
 void PossGainEditor::resized()
 {
-    gainSlider.setBounds(getLocalBounds());
+    logGainSlider.setBounds(getLocalBounds());
 }
 
 void PossGainEditor::sliderValueChanged(juce::Slider* slider)
 {
-    if (slider == &gainSlider)
+    if (slider == &logGainSlider)
     {
-        audioProcessor.linearGain.store(pow(10, gainSlider.getValue() / 20));
+        audioProcessor.linearGain.store(
+            static_cast<float>(pow(10, logGainSlider.getValue() / 20)));
     }
 }
