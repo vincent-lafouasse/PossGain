@@ -6,7 +6,7 @@ Special thanks to @eyalamirmusic for the project template, and @sammithy for the
 
 ## Plugins
 
-- PossGain, a revolutionary plugin to control a signal's gain which will help you with proper gain staging.
+- PossGain, a revolutionary plugin to control a signal's gain for proper gain staging.
 
 ### To do
 
