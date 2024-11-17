@@ -51,6 +51,18 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     }
 }
 
+void PossGainProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    // Use this method as the place to do any pre-playback
+    // initialisation that you need..
+    (void)sampleRate;
+    (void)samplesPerBlock;
+}
+
+void PossGainProcessor::releaseResources() {
+    // When playback stops, you can use this as an opportunity to free up any
+    // spare memory, etc.
+}
+
 //================== boiler plate =============================================
 
 //==============================================================================
@@ -96,25 +108,22 @@ int PossGainProcessor::getCurrentProgram() {
     return 0;
 }
 
-void PossGainProcessor::setCurrentProgram(int index) {}
+void PossGainProcessor::setCurrentProgram(int index) {
+    (void)index;
+}
 
 const juce::String PossGainProcessor::getProgramName(int index) {
+    (void)index;
     return {};
 }
 
 void PossGainProcessor::changeProgramName(int index,
-                                          const juce::String& newName) {}
+                                          const juce::String& newName) {
+    (void)index;
+    (void)newName;
+}
 
 //==============================================================================
-void PossGainProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
-}
-
-void PossGainProcessor::releaseResources() {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
-}
 
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool PossGainProcessor::isBusesLayoutSupported(
@@ -157,12 +166,15 @@ void PossGainProcessor::getStateInformation(juce::MemoryBlock& destData) {
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    (void)destData;
 }
 
 void PossGainProcessor::setStateInformation(const void* data, int sizeInBytes) {
     // You should use this method to restore your parameters from this memory
     // block, whose contents will have been created by the getStateInformation()
     // call.
+    (void)data;
+    (void)sizeInBytes;
 }
 
 //==============================================================================

@@ -16,7 +16,8 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     // editor's size to whatever you need it to be.
     setSize(200, 400);
 
-    logGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    logGainSlider.setSliderStyle(
+        juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     logGainSlider.setTextBoxStyle(
         juce::Slider::TextEntryBoxPosition::TextBoxBelow, true, 100, 25);
     logGainSlider.setRange(-35.0f, 35.0f);
