@@ -65,7 +65,6 @@ void PossGainProcessor::releaseResources() {
 
 //================== boiler plate =============================================
 
-//==============================================================================
 const juce::String PossGainProcessor::getName() const {
     return JucePlugin_Name;
 }
@@ -152,6 +151,7 @@ bool PossGainProcessor::isBusesLayoutSupported(
 #endif
 
 //==============================================================================
+
 bool PossGainProcessor::hasEditor() const {
     return true;  // (change this to false if you choose to not supply an
                   // editor)
