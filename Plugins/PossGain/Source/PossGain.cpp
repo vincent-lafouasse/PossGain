@@ -6,9 +6,9 @@
   ==============================================================================
 */
 
-#include "PluginProcessor.h"
-#include "PluginEditor.h"
-#include "StereoSignalSmoother.hpp"
+#include "PossGain.hpp"
+#include "PluginEditor.hpp"
+#include "StereoSignalSmoother.tpp"
 
 //==============================================================================
 PossGainProcessor::PossGainProcessor()

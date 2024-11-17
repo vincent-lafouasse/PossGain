@@ -19,8 +19,13 @@ juce_add_plugin("${BaseTargetName}"
         PRODUCT_NAME "PossGain")
 
 target_sources(${BaseTargetName} PRIVATE
-        Source/PluginProcessor.cpp
-        Source/PluginEditor.cpp)
+        Source/PossGain.cpp
+        Source/PossGain.hpp
+        Source/PluginEditor.cpp
+        Source/PluginEditor.hpp
+        Source/StereoSignalSmoother.tpp
+        Source/Parameters.h
+)
 
 target_compile_definitions(${BaseTargetName}
         PUBLIC

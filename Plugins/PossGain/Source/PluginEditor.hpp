@@ -9,7 +9,7 @@
 #pragma once
 
 #include <shared_plugin_helpers/shared_plugin_helpers.h>
-#include "PluginProcessor.h"
+#include "PossGain.hpp"
 
 //==============================================================================
 /**

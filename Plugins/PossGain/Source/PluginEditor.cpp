@@ -6,8 +6,8 @@
   ==============================================================================
 */
 
-#include "PluginEditor.h"
-#include "PluginProcessor.h"
+#include "PluginEditor.hpp"
+#include "PossGain.hpp"
 
 //==============================================================================
 PossGainEditor::PossGainEditor(PossGainProcessor& p)
