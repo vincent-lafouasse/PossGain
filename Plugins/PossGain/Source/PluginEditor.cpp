@@ -16,11 +16,11 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     // editor's size to whatever you need it to be.
     setSize(200, 400);
 
-    logGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
+    logGainSlider.setSliderStyle(juce::Slider::SliderStyle::Rotary);
     logGainSlider.setTextBoxStyle(
         juce::Slider::TextEntryBoxPosition::TextBoxBelow, true, 100, 25);
-    logGainSlider.setRange(-48.0f, 0.0f);
-    logGainSlider.setValue(-6.0f);
+    logGainSlider.setRange(-35.0f, 35.0f);
+    logGainSlider.setValue(0.0f);
     logGainSlider.addListener(this);
     addAndMakeVisible(logGainSlider);
 }
