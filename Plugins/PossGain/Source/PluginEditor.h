@@ -13,12 +13,10 @@
 
 //==============================================================================
 /**
-*/
-class PossGainEditor
-    : public juce::AudioProcessorEditor
-    , public juce::Slider::Listener
-{
-public:
+ */
+class PossGainEditor : public juce::AudioProcessorEditor,
+                       public juce::Slider::Listener {
+   public:
     PossGainEditor(PossGainProcessor&);
     ~PossGainEditor() override;
 
@@ -27,7 +25,7 @@ public:
     void resized() override;
     void sliderValueChanged(juce::Slider* slider) override;
 
-private:
+   private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     PossGainProcessor& audioProcessor;

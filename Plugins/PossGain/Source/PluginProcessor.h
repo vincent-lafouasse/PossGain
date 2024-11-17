@@ -13,14 +13,14 @@
 
 //==============================================================================
 /**
-*/
-class PossGainProcessor
-    : public juce::AudioProcessor
+ */
+class PossGainProcessor : public juce::AudioProcessor
 #if JucePlugin_Enable_ARA
-    , public juce::AudioProcessorARAExtension
+    ,
+                          public juce::AudioProcessorARAExtension
 #endif
 {
-public:
+   public:
     //==============================================================================
     PossGainProcessor();
     ~PossGainProcessor() override;
@@ -61,7 +61,7 @@ public:
     std::atomic<float> linearGain;
     StereoSignalSmoother<float> smoothedGain;
 
-private:
+   private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainProcessor)
 };

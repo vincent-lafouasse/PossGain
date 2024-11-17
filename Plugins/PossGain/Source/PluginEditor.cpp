@@ -6,14 +6,12 @@
   ==============================================================================
 */
 
-#include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "PluginProcessor.h"
 
 //==============================================================================
 PossGainEditor::PossGainEditor(PossGainProcessor& p)
-    : AudioProcessorEditor(&p)
-    , audioProcessor(p)
-{
+    : AudioProcessorEditor(&p), audioProcessor(p) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize(200, 400);
@@ -27,26 +25,22 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     addAndMakeVisible(logGainSlider);
 }
 
-PossGainEditor::~PossGainEditor()
-{
-}
+PossGainEditor::~PossGainEditor() {}
 
 //==============================================================================
-void PossGainEditor::paint(juce::Graphics& g)
-{
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
+void PossGainEditor::paint(juce::Graphics& g) {
+    // (Our component is opaque, so we must completely fill the background with
+    // a solid colour)
+    g.fillAll(
+        getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 }
 
-void PossGainEditor::resized()
-{
+void PossGainEditor::resized() {
     logGainSlider.setBounds(getLocalBounds());
 }
 
-void PossGainEditor::sliderValueChanged(juce::Slider* slider)
-{
-    if (slider == &logGainSlider)
-    {
+void PossGainEditor::sliderValueChanged(juce::Slider* slider) {
+    if (slider == &logGainSlider) {
         audioProcessor.linearGain.store(
             static_cast<float>(pow(10, logGainSlider.getValue() / 20)));
     }
