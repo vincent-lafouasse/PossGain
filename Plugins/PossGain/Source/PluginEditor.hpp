@@ -38,6 +38,7 @@ class PossGainEditor : public juce::AudioProcessorEditor,
     PossGainProcessor& audioProcessor;
 
     GainKnob gainSlider;
+    juce::Label gainLabel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainEditor)
 };

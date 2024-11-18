@@ -20,6 +20,7 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     constexpr int height = 400;
     setSize(width, height);
 
+    addAndMakeVisible(gainSlider);
     gainSlider.setSliderStyle(
         juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     constexpr int value_textbox_width = 100;
@@ -33,9 +34,11 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     gainSlider.setSkewFactorFromMidPoint(1.0);
     gainSlider.setValue(1.0);
     gainSlider.setDoubleClickReturnValue(true, 1.0);
-
     gainSlider.addListener(this);
-    addAndMakeVisible(gainSlider);
+
+    addAndMakeVisible(gainLabel);
+    gainLabel.setText("Gain", juce::dontSendNotification);
+    gainLabel.attachToComponent(&gainSlider, true);
 }
 
 PossGainEditor::~PossGainEditor() {}
