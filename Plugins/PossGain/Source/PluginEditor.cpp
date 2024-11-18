@@ -37,7 +37,14 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
 PossGainEditor::~PossGainEditor() {}
 
 juce::String GainKnob::getTextFromValue(double value) {
-    return {};
+    if (value == 0.0)
+        return "-inf";
+
+    // biggest possible is "-xx.x"
+    constexpr size_t buffer_size = 6;
+    char buffer[buffer_size] = {0};
+    std::snprintf(buffer, buffer_size, "%.1f", 20.0 * std::log10(value));
+    return buffer;
 }
 
 //==============================================================================
