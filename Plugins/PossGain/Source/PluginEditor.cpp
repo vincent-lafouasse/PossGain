@@ -14,12 +14,16 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize(200, 400);
+    constexpr int width = 200;
+    constexpr int height = 400;
+    setSize(width, height);
 
     gainSlider.setSliderStyle(
         juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    constexpr int value_textbox_width = 100;
+    constexpr int value_textbox_height = 25;
     gainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow,
-                               true, 100, 25);
+                               true, value_textbox_width, value_textbox_height);
 
     constexpr double maxGaindB = 35.0;
     const double maxGain = std::pow(10.0, maxGaindB / 20.0);
