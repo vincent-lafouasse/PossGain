@@ -46,6 +46,8 @@
 
 #pragma once
 
+#include <JuceHeader.h>
+
 //==============================================================================
 class MainContentComponent : public juce::AudioAppComponent,
                              public juce::ChangeListener {

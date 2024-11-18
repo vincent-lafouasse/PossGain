@@ -6,7 +6,6 @@
   ==============================================================================
 */
 
-#include <JuceHeader.h>
 #include "PlayingSoundFilesTutorial_01.h"
 
 class Application : public juce::JUCEApplication {
