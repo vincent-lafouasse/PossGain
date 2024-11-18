@@ -30,7 +30,7 @@ class PossGainEditor : public juce::AudioProcessorEditor,
     // access the processor object that created it.
     PossGainProcessor& audioProcessor;
 
-    juce::Slider logGainSlider;
+    juce::Slider gainSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainEditor)
 };
