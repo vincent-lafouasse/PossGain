@@ -44,90 +44,77 @@
 
 *******************************************************************************/
 
-
 #pragma once
 
 //==============================================================================
-class MainContentComponent   : public juce::AudioAppComponent,
-                               public juce::ChangeListener
-{
-public:
-    MainContentComponent()
-        : state (Stopped)
-    {
-        addAndMakeVisible (&openButton);
-        openButton.setButtonText ("Open...");
+class MainContentComponent : public juce::AudioAppComponent,
+                             public juce::ChangeListener {
+   public:
+    MainContentComponent() : state(Stopped) {
+        addAndMakeVisible(&openButton);
+        openButton.setButtonText("Open...");
         openButton.onClick = [this] { openButtonClicked(); };
 
-        addAndMakeVisible (&playButton);
-        playButton.setButtonText ("Play");
+        addAndMakeVisible(&playButton);
+        playButton.setButtonText("Play");
         playButton.onClick = [this] { playButtonClicked(); };
-        playButton.setColour (juce::TextButton::buttonColourId, juce::Colours::green);
-        playButton.setEnabled (false);
+        playButton.setColour(juce::TextButton::buttonColourId,
+                             juce::Colours::green);
+        playButton.setEnabled(false);
 
-        addAndMakeVisible (&stopButton);
-        stopButton.setButtonText ("Stop");
+        addAndMakeVisible(&stopButton);
+        stopButton.setButtonText("Stop");
         stopButton.onClick = [this] { stopButtonClicked(); };
-        stopButton.setColour (juce::TextButton::buttonColourId, juce::Colours::red);
-        stopButton.setEnabled (false);
+        stopButton.setColour(juce::TextButton::buttonColourId,
+                             juce::Colours::red);
+        stopButton.setEnabled(false);
 
-        setSize (300, 200);
+        setSize(300, 200);
 
         formatManager.registerBasicFormats();
-        transportSource.addChangeListener (this);
+        transportSource.addChangeListener(this);
 
-        setAudioChannels (2, 2);
+        setAudioChannels(2, 2);
     }
 
-    ~MainContentComponent() override
-    {
-        shutdownAudio();
+    ~MainContentComponent() override { shutdownAudio(); }
+
+    void prepareToPlay(int samplesPerBlockExpected,
+                       double sampleRate) override {
+        transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
     }
 
-    void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override
-    {
-        transportSource.prepareToPlay (samplesPerBlockExpected, sampleRate);
-    }
-
-    void getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill) override
-    {
-        if (readerSource.get() == nullptr)
-        {
+    void getNextAudioBlock(
+        const juce::AudioSourceChannelInfo& bufferToFill) override {
+        if (readerSource.get() == nullptr) {
             bufferToFill.clearActiveBufferRegion();
             return;
         }
 
-        transportSource.getNextAudioBlock (bufferToFill);
+        transportSource.getNextAudioBlock(bufferToFill);
     }
 
-    void releaseResources() override
-    {
-        transportSource.releaseResources();
+    void releaseResources() override { transportSource.releaseResources(); }
+
+    void resized() override {
+        openButton.setBounds(10, 10, getWidth() - 20, 20);
+        playButton.setBounds(10, 40, getWidth() - 20, 20);
+        stopButton.setBounds(10, 70, getWidth() - 20, 20);
     }
 
-    void resized() override
-    {
-        openButton.setBounds (10, 10, getWidth() - 20, 20);
-        playButton.setBounds (10, 40, getWidth() - 20, 20);
-        stopButton.setBounds (10, 70, getWidth() - 20, 20);
-    }
-
-    void changeListenerCallback (juce::ChangeBroadcaster* source) override
-    {
-        if (source == &transportSource)
-        {
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override {
+        if (source == &transportSource) {
             if (transportSource.isPlaying())
-                changeState (Playing);
+                changeState(Playing);
             else if ((state == Stopping) || (state == Playing))
-                changeState (Stopped);
+                changeState(Stopped);
             else if (Pausing == state)
-                changeState (Paused);
+                changeState(Paused);
         }
     }
 
-private:
-    enum TransportState
-    {
+   private:
+    enum TransportState {
         Stopped,
         Starting,
         Playing,
@@ -136,19 +123,16 @@ private:
         Stopping
     };
 
-    void changeState (TransportState newState)
-    {
-        if (state != newState)
-        {
+    void changeState(TransportState newState) {
+        if (state != newState) {
             state = newState;
 
-            switch (state)
-            {
+            switch (state) {
                 case Stopped:
-                    playButton.setButtonText ("Play");
-                    stopButton.setButtonText ("Stop");
-                    stopButton.setEnabled (false);
-                    transportSource.setPosition (0.0);
+                    playButton.setButtonText("Play");
+                    stopButton.setButtonText("Stop");
+                    stopButton.setEnabled(false);
+                    transportSource.setPosition(0.0);
                     break;
 
                 case Starting:
@@ -156,9 +140,9 @@ private:
                     break;
 
                 case Playing:
-                    playButton.setButtonText ("Pause");
-                    stopButton.setButtonText ("Stop");
-                    stopButton.setEnabled (true);
+                    playButton.setButtonText("Pause");
+                    stopButton.setButtonText("Stop");
+                    stopButton.setEnabled(true);
                     break;
 
                 case Pausing:
@@ -166,8 +150,8 @@ private:
                     break;
 
                 case Paused:
-                    playButton.setButtonText ("Resume");
-                    stopButton.setButtonText ("Return to Zero");
+                    playButton.setButtonText("Resume");
+                    stopButton.setButtonText("Return to Zero");
                     break;
 
                 case Stopping:
@@ -177,47 +161,43 @@ private:
         }
     }
 
-    void openButtonClicked()
-    {
-        chooser = std::make_unique<juce::FileChooser> ("Select a Wave file to play...",
-                                                       juce::File{},
-                                                       "*.wav");
-        auto chooserFlags = juce::FileBrowserComponent::openMode
-                          | juce::FileBrowserComponent::canSelectFiles;
+    void openButtonClicked() {
+        chooser = std::make_unique<juce::FileChooser>(
+            "Select a Wave file to play...", juce::File{}, "*.wav");
+        auto chooserFlags = juce::FileBrowserComponent::openMode |
+                            juce::FileBrowserComponent::canSelectFiles;
 
-        chooser->launchAsync (chooserFlags, [this] (const juce::FileChooser& fc)
-        {
+        chooser->launchAsync(chooserFlags, [this](const juce::FileChooser& fc) {
             auto file = fc.getResult();
 
-            if (file != juce::File{})
-            {
-                auto* reader = formatManager.createReaderFor (file);
+            if (file != juce::File{}) {
+                auto* reader = formatManager.createReaderFor(file);
 
-                if (reader != nullptr)
-                {
-                    auto newSource = std::make_unique<juce::AudioFormatReaderSource> (reader, true);
-                    transportSource.setSource (newSource.get(), 0, nullptr, reader->sampleRate);
-                    playButton.setEnabled (true);
-                    readerSource.reset (newSource.release());
+                if (reader != nullptr) {
+                    auto newSource =
+                        std::make_unique<juce::AudioFormatReaderSource>(reader,
+                                                                        true);
+                    transportSource.setSource(newSource.get(), 0, nullptr,
+                                              reader->sampleRate);
+                    playButton.setEnabled(true);
+                    readerSource.reset(newSource.release());
                 }
             }
         });
     }
 
-    void playButtonClicked()
-    {
+    void playButtonClicked() {
         if ((state == Stopped) || (state == Paused))
-            changeState (Starting);
+            changeState(Starting);
         else if (state == Playing)
-            changeState (Pausing);
+            changeState(Pausing);
     }
 
-    void stopButtonClicked()
-    {
+    void stopButtonClicked() {
         if (state == Paused)
-            changeState (Stopped);
+            changeState(Stopped);
         else
-            changeState (Stopping);
+            changeState(Stopping);
     }
 
     //==========================================================================
@@ -232,5 +212,5 @@ private:
     juce::AudioTransportSource transportSource;
     TransportState state;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainContentComponent)
 };
