@@ -1,4 +1,4 @@
-project(PlayingSoundFile VERSION 0.0.1)
+project(AudioPlayer VERSION 0.0.1)
 
 set (TargetName ${PROJECT_NAME})
 
@@ -8,7 +8,6 @@ juce_generate_juce_header(${TargetName})
 target_sources(${TargetName} PRIVATE
         Source/Main.cpp
         Source/PlayingSoundFilesTutorial_01.h
-
 )
 
 target_compile_definitions(${TargetName} PRIVATE

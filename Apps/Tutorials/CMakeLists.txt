@@ -1,2 +1,2 @@
 add_subdirectory(Noisemaker)
-add_subdirectory(PlayingSoundFilesTutorial)
+add_subdirectory(AudioPlayer)
