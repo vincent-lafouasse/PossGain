@@ -12,6 +12,13 @@
 #include "PossGain.hpp"
 
 //==============================================================================
+
+class GainKnob : public juce::Slider {
+   public:
+    juce::String getTextFromValue(double value) override;
+};
+
+//==============================================================================
 /**
  */
 class PossGainEditor : public juce::AudioProcessorEditor,
@@ -30,7 +37,7 @@ class PossGainEditor : public juce::AudioProcessorEditor,
     // access the processor object that created it.
     PossGainProcessor& audioProcessor;
 
-    juce::Slider gainSlider;
+    GainKnob gainSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainEditor)
 };

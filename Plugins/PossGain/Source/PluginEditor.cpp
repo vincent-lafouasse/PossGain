@@ -36,6 +36,10 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
 
 PossGainEditor::~PossGainEditor() {}
 
+juce::String GainKnob::getTextFromValue(double value) {
+    return {};
+}
+
 //==============================================================================
 void PossGainEditor::paint(juce::Graphics& g) {
     // (Our component is opaque, so we must completely fill the background with
