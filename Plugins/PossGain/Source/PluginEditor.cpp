@@ -8,6 +8,8 @@
 
 #include "PluginEditor.hpp"
 #include "PossGain.hpp"
+#include <sstream>
+#include <iomanip>
 
 //==============================================================================
 PossGainEditor::PossGainEditor(PossGainProcessor& p)
@@ -38,13 +40,14 @@ PossGainEditor::~PossGainEditor() {}
 
 juce::String GainKnob::getTextFromValue(double value) {
     if (value == 0.0)
-        return "-inf";
+        return "-inf dB";
 
-    // biggest possible is "-xx.x"
-    constexpr size_t buffer_size = 6;
-    char buffer[buffer_size] = {0};
-    std::snprintf(buffer, buffer_size, "%.1f", 20.0 * std::log10(value));
-    return buffer;
+    std::stringstream ss{};
+    ss << std::fixed;
+    ss << std::setprecision(1);
+    ss << 20.0 * std::log10(value);
+    ss << " dB";
+    return ss.str();
 }
 
 //==============================================================================
