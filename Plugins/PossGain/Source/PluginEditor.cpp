@@ -32,6 +32,7 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     gainSlider.setRange(0.0, maxGain);
     gainSlider.setSkewFactorFromMidPoint(1.0);
     gainSlider.setValue(1.0);
+    gainSlider.setDoubleClickReturnValue(true, 1.0);
     gainSlider.addListener(this);
     addAndMakeVisible(gainSlider);
 }
