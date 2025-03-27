@@ -33,7 +33,7 @@ PossGainProcessor::~PossGainProcessor() = default;
 void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer&) {
     juce::ScopedNoDenormals noDenormals;
-    size_t totalNumInputChannels =
+    const auto totalNumInputChannels =
         static_cast<size_t>(getTotalNumInputChannels());
     // size_t totalNumOutputChannels =
     // static_cast<size_t>(getTotalNumOutputChannels());
