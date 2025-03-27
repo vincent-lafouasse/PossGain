@@ -1,6 +1,4 @@
-project(PossFilter VERSION 0.0.1)
-
-set (BaseTargetName PossFilter)
+set (BaseTargetName PossGain)
 
 juce_add_plugin("${BaseTargetName}"
         # VERSION ...                               # Set this if the plugin version is different to the project version
@@ -19,10 +17,12 @@ juce_add_plugin("${BaseTargetName}"
         PRODUCT_NAME "PossGain")
 
 target_sources(${BaseTargetName} PRIVATE
-        Source/PossFilter.cpp
-        Source/PossFilter.hpp
-        Source/PossFilterEditor.cpp
-        Source/PossFilterEditor.hpp
+        Source/PossGain.cpp
+        Source/PossGain.hpp
+        Source/PluginEditor.cpp
+        Source/PluginEditor.hpp
+        Source/StereoSignalSmoother.tpp
+        Source/Parameters.h
 )
 
 target_compile_definitions(${BaseTargetName}
@@ -32,7 +32,6 @@ target_compile_definitions(${BaseTargetName}
         JUCE_VST3_CAN_REPLACE_VST2=0)
 
 target_link_libraries(${BaseTargetName} PRIVATE
-        shared_plugin_helpers
         juce_audio_utils
         juce_recommended_config_flags
         juce_recommended_lto_flags

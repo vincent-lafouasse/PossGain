@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include <shared_plugin_helpers/shared_plugin_helpers.h>
+#include <juce_audio_processors/juce_audio_processors.h>
 #include "StereoSignalSmoother.tpp"
 
 //==============================================================================

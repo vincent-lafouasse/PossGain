@@ -1,2 +1,0 @@
-add_subdirectory(Noisemaker)
-add_subdirectory(AudioPlayer)

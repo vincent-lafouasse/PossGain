@@ -8,17 +8,23 @@
 
 #pragma once
 
-#include <shared_plugin_helpers/shared_plugin_helpers.h>
-#include "PossFilter.hpp"
+#include "PossGain.hpp"
+
+//==============================================================================
+
+class GainKnob : public juce::Slider {
+   public:
+    juce::String getTextFromValue(double value) override;
+};
 
 //==============================================================================
 /**
  */
-class PossFilterEditor : public juce::AudioProcessorEditor,
-                         public juce::Slider::Listener {
+class PossGainEditor : public juce::AudioProcessorEditor,
+                       public juce::Slider::Listener {
    public:
-    PossFilterEditor(PossFilterProcessor&);
-    ~PossFilterEditor() override;
+    PossGainEditor(PossGainProcessor&);
+    ~PossGainEditor() override;
 
     //==============================================================================
     void paint(juce::Graphics&) override;
@@ -28,7 +34,10 @@ class PossFilterEditor : public juce::AudioProcessorEditor,
    private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
-    PossFilterProcessor& audioProcessor;
+    PossGainProcessor& audioProcessor;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossFilterEditor)
+    GainKnob gainSlider;
+    juce::Label gainLabel;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainEditor)
 };
