@@ -53,7 +53,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
 void PossGainProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    // initialisation that you need...
     (void)sampleRate;
     (void)samplesPerBlock;
 }
