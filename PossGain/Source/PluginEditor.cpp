@@ -41,7 +41,7 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     gainLabel.attachToComponent(&gainSlider, true);
 }
 
-PossGainEditor::~PossGainEditor() {}
+PossGainEditor::~PossGainEditor() = default;
 
 juce::String GainKnob::getTextFromValue(double value) {
     if (value == 0.0)
