@@ -4,8 +4,8 @@
 
 struct Parameters {
     void add(juce::AudioProcessor& processor) const {
-        processor.addParameter(gain);
-        processor.addParameter(enable);
+        processor.addParameter(this->gain);
+        processor.addParameter(this->enable);
     }
 
     // Raw pointers. They will be owned by either the processor or the APVTS (if
