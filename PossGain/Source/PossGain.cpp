@@ -28,7 +28,7 @@ PossGainProcessor::PossGainProcessor()
       linearGain(0) {
 }
 
-PossGainProcessor::~PossGainProcessor() {}
+PossGainProcessor::~PossGainProcessor() = default;
 
 void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer&) {
