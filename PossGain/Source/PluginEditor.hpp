@@ -23,7 +23,7 @@ class GainKnob : public juce::Slider {
 class PossGainEditor : public juce::AudioProcessorEditor,
                        public juce::Slider::Listener {
    public:
-    PossGainEditor(PossGainProcessor&);
+    explicit PossGainEditor(PossGainProcessor&);
     ~PossGainEditor() override;
 
     //==============================================================================
