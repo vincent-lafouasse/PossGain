@@ -38,10 +38,17 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
 
     addAndMakeVisible(gainLabel);
     gainLabel.setText("Gain", juce::dontSendNotification);
-    gainLabel.attachToComponent(&gainSlider, true);
 }
 
 PossGainEditor::~PossGainEditor() = default;
+
+void PossGainEditor::resized() {
+    juce::Rectangle<int> window = this->getLocalBounds();
+
+    constexpr int gainLabelHeight = 20;
+    gainLabel.setBounds(window.removeFromTop(gainLabelHeight));
+    gainSlider.setBounds(window);
+}
 
 juce::String GainKnob::getTextFromValue(double value) {
     if (value == 0.0)
@@ -61,10 +68,6 @@ void PossGainEditor::paint(juce::Graphics& g) {
     // a solid colour)
     g.fillAll(
         getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-}
-
-void PossGainEditor::resized() {
-    gainSlider.setBounds(getLocalBounds());
 }
 
 void PossGainEditor::sliderValueChanged(juce::Slider* slider) {
