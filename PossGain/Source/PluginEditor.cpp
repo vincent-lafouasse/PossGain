@@ -1,17 +1,8 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin editor.
-
-  ==============================================================================
-*/
-
 #include "PluginEditor.hpp"
 #include <iomanip>
 #include <sstream>
 #include "PossGain.hpp"
 
-//==============================================================================
 PossGainEditor::PossGainEditor(PossGainProcessor& p)
     : AudioProcessorEditor(&p), audioProcessor(p) {
     // Make sure that before the constructor has finished, you've set the
@@ -62,10 +53,7 @@ juce::String GainKnob::getTextFromValue(double value) {
     return ss.str();
 }
 
-//==============================================================================
 void PossGainEditor::paint(juce::Graphics& g) {
-    // (Our component is opaque, so we must completely fill the background with
-    // a solid colour)
     g.fillAll(
         getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 }
