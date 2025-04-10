@@ -8,7 +8,6 @@
 
 #include "PossGain.hpp"
 #include "PluginEditor.hpp"
-#include "StereoSignalSmoother.tpp"
 
 //==============================================================================
 PossGainProcessor::PossGainProcessor()

@@ -21,7 +21,6 @@ target_sources(${BaseTargetName} PRIVATE
         Source/PossGain.hpp
         Source/PluginEditor.cpp
         Source/PluginEditor.hpp
-        Source/StereoSignalSmoother.tpp
         Source/Parameters.h
 )
 
