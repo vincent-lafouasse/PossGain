@@ -15,12 +15,8 @@ PossGainProcessor::PossGainProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(
           BusesProperties()
-#if !JucePlugin_IsMidiEffect
-#if !JucePlugin_IsSynth
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
-#endif
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
-#endif
               )
 
 #endif
@@ -70,27 +66,15 @@ const juce::String PossGainProcessor::getName() const {
 }
 
 bool PossGainProcessor::acceptsMidi() const {
-#if JucePlugin_WantsMidiInput
     return true;
-#else
-    return false;
-#endif
 }
 
 bool PossGainProcessor::producesMidi() const {
-#if JucePlugin_ProducesMidiOutput
-    return true;
-#else
     return false;
-#endif
 }
 
 bool PossGainProcessor::isMidiEffect() const {
-#if JucePlugin_IsMidiEffect
-    return true;
-#else
     return false;
-#endif
 }
 
 double PossGainProcessor::getTailLengthSeconds() const {
@@ -113,7 +97,7 @@ void PossGainProcessor::setCurrentProgram(int index) {
 
 const juce::String PossGainProcessor::getProgramName(int index) {
     (void)index;
-    return {};
+    return "PossGain";
 }
 
 void PossGainProcessor::changeProgramName(int index,
@@ -127,10 +111,6 @@ void PossGainProcessor::changeProgramName(int index,
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool PossGainProcessor::isBusesLayoutSupported(
     const BusesLayout& layouts) const {
-#if JucePlugin_IsMidiEffect
-    juce::ignoreUnused(layouts);
-    return true;
-#else
     // This is the place where you check if the layout is supported.
     // In this template code we only support mono or stereo.
     // Some plugin hosts, such as certain GarageBand versions, will only
@@ -139,14 +119,10 @@ bool PossGainProcessor::isBusesLayoutSupported(
         layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
 
-    // This checks if the input layout matches the output layout
-#if !JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
-#endif
 
     return true;
-#endif
 }
 #endif
 

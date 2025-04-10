@@ -36,8 +36,8 @@ PossGainEditor::~PossGainEditor() = default;
 void PossGainEditor::resized() {
     juce::Rectangle<int> window = this->getLocalBounds();
 
-    constexpr int gainLabelHeight = 20;
-    gainLabel.setBounds(window.removeFromTop(gainLabelHeight));
+    constexpr int gainLabelHeight = 40;
+    gainLabel.setBounds(window.removeFromBottom(gainLabelHeight));
     gainSlider.setBounds(window);
 }
 
