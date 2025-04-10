@@ -27,21 +27,18 @@ PossGainProcessor::~PossGainProcessor() = default;
 
 void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer&) {
-    juce::ScopedNoDenormals noDenormals;
-    const auto totalNumInputChannels =
-        static_cast<size_t>(getTotalNumInputChannels());
-    // size_t totalNumOutputChannels =
-    // static_cast<size_t>(getTotalNumOutputChannels());
+    auto* leftChannel = buffer.getWritePointer(0);
+    auto* rightChannel = buffer.getWritePointer(1);
 
-    smoothedGain.setTarget(linearGain.load());
+    const float targetGain = linearGain.load(std::memory_order_relaxed);
 
-    for (size_t channel = 0; channel < totalNumInputChannels; ++channel) {
-        auto* channelData = buffer.getWritePointer(static_cast<int>(channel));
+    const auto nSamples = buffer.getNumSamples();
+    for (auto sample = 0; sample < nSamples; sample++) {
+        leftChannel[sample] = this->gain * leftChannel[sample];
+        rightChannel[sample] = this->gain * rightChannel[sample];
 
-        for (size_t sample = 0;
-             sample < static_cast<size_t>(buffer.getNumSamples()); sample++) {
-            channelData[sample] =
-                smoothedGain.get(channel) * channelData[sample];
+        if (!juce::approximatelyEqual(this->gain, targetGain)) {
+            this->gain = 0.5 * (this->gain + targetGain);
         }
     }
 }
