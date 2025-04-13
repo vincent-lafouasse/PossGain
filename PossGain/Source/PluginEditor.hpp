@@ -22,7 +22,7 @@ class PossGainEditor : public juce::AudioProcessorEditor {
     GainKnob gainSlider;
     juce::Label gainLabel;
 
-    juce::ToggleButton muteButton;
+    juce::TextButton muteButton;
 
    public:
     juce::AudioProcessorValueTreeState::SliderAttachment gainSliderAttachment;

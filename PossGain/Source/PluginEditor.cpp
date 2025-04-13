@@ -19,6 +19,7 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     this->setupGainKnob();
 
     addAndMakeVisible(muteButton);
+    muteButton.setClickingTogglesState(true);
 }
 
 PossGainEditor::~PossGainEditor() = default;
