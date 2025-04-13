@@ -61,6 +61,8 @@ class PossGainProcessor : public juce::AudioProcessor
 
     static const char* gainParameterID;
     static const char* gainParameterName;
+    static const char* muteParameterID;
+    static const char* muteParameterName;
 
    private:
     float gain{};

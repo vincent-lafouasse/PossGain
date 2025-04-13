@@ -11,6 +11,8 @@
 
 const char* PossGainProcessor::gainParameterID = "gainID";
 const char* PossGainProcessor::gainParameterName = "gainName";
+const char* PossGainProcessor::muteParameterID = "muteID";
+const char* PossGainProcessor::muteParameterName = "muteName";
 
 //==============================================================================
 PossGainProcessor::PossGainProcessor()
@@ -79,6 +81,11 @@ PossGainProcessor::createLayout() {
                                       PossGainProcessor::gainParameterName,
                                       gainRange, unityGain));
     parameters.push_back(std::move(gainParam));
+
+    std::unique_ptr<juce::AudioParameterBool> mute(new juce::AudioParameterBool(
+        PossGainProcessor::muteParameterID,
+        PossGainProcessor::muteParameterName, false));
+    parameters.push_back(std::move(mute));
 
     return {parameters.begin(), parameters.end()};
 }
