@@ -7,6 +7,7 @@
 */
 
 #include "PossGain.hpp"
+#include <atomic>
 #include "PluginEditor.hpp"
 
 const char* PossGainProcessor::gainParameterID = "gainID";
@@ -36,6 +37,12 @@ PossGainProcessor::~PossGainProcessor() = default;
 
 void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer&) {
+    if (parameters.getRawParameterValue(muteParameterID)
+            ->load(std::memory_order_relaxed) > 0.5) {
+        buffer.applyGain(0.0);
+        return;
+    }
+
     auto* leftChannel = buffer.getWritePointer(0);
     auto* rightChannel = buffer.getWritePointer(1);
 
