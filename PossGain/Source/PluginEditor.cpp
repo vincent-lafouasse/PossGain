@@ -22,8 +22,6 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     constexpr int value_textbox_height = 25;
     gainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow,
                                true, value_textbox_width, value_textbox_height);
-
-    gainSlider.setSkewFactorFromMidPoint(1.0);
     gainSlider.setDoubleClickReturnValue(true, 1.0);
 
     addAndMakeVisible(gainLabel);
