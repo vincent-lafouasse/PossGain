@@ -37,7 +37,7 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
         rightChannel[sample] = this->gain * rightChannel[sample];
 
         if (!juce::approximatelyEqual(this->gain, targetGain)) {
-            this->gain = 0.5 * (this->gain + targetGain);
+            this->gain = 0.5f * (this->gain + targetGain);
         }
     }
 }
