@@ -37,14 +37,16 @@ PossGainProcessor::~PossGainProcessor() = default;
 
 void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer&) {
-    if (parameters.getRawParameterValue(muteParameterID)
-            ->load(std::memory_order_relaxed) > 0.5) {
+    auto* leftChannel = buffer.getWritePointer(0);
+    auto* rightChannel = buffer.getWritePointer(1);
+
+    const bool muteButtonPressed =
+        parameters.getRawParameterValue(muteParameterID)
+            ->load(std::memory_order_relaxed) > 0.5;
+    if (muteButtonPressed) {
         buffer.applyGain(0.0);
         return;
     }
-
-    auto* leftChannel = buffer.getWritePointer(0);
-    auto* rightChannel = buffer.getWritePointer(1);
 
     const float targetGain = parameters.getRawParameterValue(gainParameterID)
                                  ->load(std::memory_order_relaxed);
