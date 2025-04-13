@@ -9,6 +9,9 @@
 #include "PossGain.hpp"
 #include "PluginEditor.hpp"
 
+const char* PossGainProcessor::gainParameterID = "gainID";
+const char* PossGainProcessor::gainParameterName = "gainName";
+
 //==============================================================================
 PossGainProcessor::PossGainProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations

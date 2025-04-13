@@ -60,6 +60,9 @@ class PossGainProcessor : public juce::AudioProcessor
     std::atomic<float> linearGain;
     float gain{};
 
+    static const char* gainParameterID;
+    static const char* gainParameterName;
+
    private:
     static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
 
