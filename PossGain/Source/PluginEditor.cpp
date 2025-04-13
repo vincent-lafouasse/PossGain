@@ -4,7 +4,11 @@
 #include "PossGain.hpp"
 
 PossGainEditor::PossGainEditor(PossGainProcessor& p)
-    : AudioProcessorEditor(&p), audioProcessor(p) {
+    : AudioProcessorEditor(&p),
+      audioProcessor(p),
+      gainSliderAttachment(p.parameters,
+                           PossGainProcessor::gainParameterID,
+                           this->gainSlider) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     constexpr int width = 200;
@@ -19,13 +23,8 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     gainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow,
                                true, value_textbox_width, value_textbox_height);
 
-    constexpr double maxGaindB = 35.0;
-    const double maxGain = std::pow(10.0, maxGaindB / 20.0);
-    gainSlider.setRange(0.0, maxGain);
     gainSlider.setSkewFactorFromMidPoint(1.0);
-    gainSlider.setValue(1.0);
     gainSlider.setDoubleClickReturnValue(true, 1.0);
-    gainSlider.addListener(this);
 
     addAndMakeVisible(gainLabel);
     gainLabel.setText("Gain", juce::dontSendNotification);
@@ -56,11 +55,4 @@ juce::String GainKnob::getTextFromValue(double value) {
 void PossGainEditor::paint(juce::Graphics& g) {
     g.fillAll(
         getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-}
-
-void PossGainEditor::sliderValueChanged(juce::Slider* slider) {
-    if (slider == &gainSlider) {
-        audioProcessor.linearGain.store(
-            static_cast<float>(gainSlider.getValue()));
-    }
 }

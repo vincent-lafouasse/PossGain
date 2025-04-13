@@ -59,13 +59,12 @@ class PossGainProcessor : public juce::AudioProcessor
 
     juce::AudioProcessorValueTreeState parameters;
 
-    std::atomic<float> linearGain;
-    float gain{};
-
     static const char* gainParameterID;
     static const char* gainParameterName;
 
    private:
+    float gain{};
+
     static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainProcessor)

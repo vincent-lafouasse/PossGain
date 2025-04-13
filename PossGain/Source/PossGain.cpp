@@ -27,8 +27,7 @@ PossGainProcessor::PossGainProcessor()
                  "Parameters",
                  PossGainProcessor::createLayout())
 
-      ,
-      linearGain(0) {
+{
 }
 
 PossGainProcessor::~PossGainProcessor() = default;
@@ -38,7 +37,8 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     auto* leftChannel = buffer.getWritePointer(0);
     auto* rightChannel = buffer.getWritePointer(1);
 
-    const float targetGain = linearGain.load(std::memory_order_relaxed);
+    const float targetGain = parameters.getRawParameterValue(gainParameterID)
+                                 ->load(std::memory_order_relaxed);
 
     const auto nSamples = buffer.getNumSamples();
     for (auto sample = 0; sample < nSamples; sample++) {
