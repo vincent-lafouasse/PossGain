@@ -6,6 +6,7 @@
 PossGainEditor::PossGainEditor(PossGainProcessor& p)
     : AudioProcessorEditor(&p),
       audioProcessor(p),
+      muteButton("Mute"),
       gainSliderAttachment(p.parameters,
                            PossGainProcessor::gainParameterID,
                            this->gainSlider) {
@@ -16,6 +17,8 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     setSize(width, height);
 
     this->setupGainKnob();
+
+    addAndMakeVisible(muteButton);
 }
 
 PossGainEditor::~PossGainEditor() = default;
@@ -36,6 +39,8 @@ void PossGainEditor::setupGainKnob() {
 
 void PossGainEditor::resized() {
     juce::Rectangle<int> window = this->getLocalBounds();
+
+    muteButton.setBounds(window.removeFromBottom(40));
 
     constexpr int gainLabelHeight = 40;
     gainLabel.setBounds(window.removeFromBottom(gainLabelHeight));
