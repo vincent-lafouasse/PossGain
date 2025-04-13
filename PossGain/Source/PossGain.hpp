@@ -61,6 +61,7 @@ class PossGainProcessor : public juce::AudioProcessor
     float gain{};
 
    private:
-    //==============================================================================
+    static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainProcessor)
 };

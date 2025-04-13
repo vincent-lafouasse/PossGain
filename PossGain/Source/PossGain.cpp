@@ -54,6 +54,13 @@ void PossGainProcessor::releaseResources() {
     // spare memory, etc.
 }
 
+juce::AudioProcessorValueTreeState::ParameterLayout
+PossGainProcessor::createLayout() {
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters{};
+
+    return {parameters.begin(), parameters.end()};
+}
+
 //================== boiler plate =============================================
 
 const juce::String PossGainProcessor::getName() const {
