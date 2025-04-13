@@ -16,6 +16,7 @@ class PossGainEditor : public juce::AudioProcessorEditor {
     void resized() override;
 
    private:
+    void setupGainKnob();
     PossGainProcessor& audioProcessor;
 
     GainKnob gainSlider;

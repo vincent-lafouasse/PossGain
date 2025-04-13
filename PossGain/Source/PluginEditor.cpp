@@ -15,6 +15,12 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     constexpr int height = 400;
     setSize(width, height);
 
+    this->setupGainKnob();
+}
+
+PossGainEditor::~PossGainEditor() = default;
+
+void PossGainEditor::setupGainKnob() {
     addAndMakeVisible(gainSlider);
     gainSlider.setSliderStyle(
         juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
@@ -27,8 +33,6 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     addAndMakeVisible(gainLabel);
     gainLabel.setText("Gain", juce::dontSendNotification);
 }
-
-PossGainEditor::~PossGainEditor() = default;
 
 void PossGainEditor::resized() {
     juce::Rectangle<int> window = this->getLocalBounds();
