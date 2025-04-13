@@ -41,15 +41,17 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     auto* rightChannel = buffer.getWritePointer(1);
 
     const bool muteButtonPressed =
-        parameters.getRawParameterValue(muteParameterID)
-            ->load(std::memory_order_relaxed) > 0.5;
-    if (muteButtonPressed) {
-        buffer.applyGain(0.0);
+        parameters.getRawParameterValue(muteParameterID)->load() > 0.5;
+
+    if (muteButtonPressed && juce::approximatelyEqual(this->gain, 0.0f)) {
+        buffer.clear();
         return;
     }
 
-    const float targetGain = parameters.getRawParameterValue(gainParameterID)
-                                 ->load(std::memory_order_relaxed);
+    const float targetGain =
+        muteButtonPressed
+            ? 0.0f
+            : parameters.getRawParameterValue(gainParameterID)->load();
 
     const auto nSamples = buffer.getNumSamples();
     for (auto sample = 0; sample < nSamples; sample++) {
