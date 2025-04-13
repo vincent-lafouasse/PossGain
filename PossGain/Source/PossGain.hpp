@@ -9,7 +9,6 @@
 #pragma once
 
 #include <juce_audio_processors/juce_audio_processors.h>
-#include "StereoSignalSmoother.tpp"
 
 //==============================================================================
 /**
@@ -58,10 +57,15 @@ class PossGainProcessor : public juce::AudioProcessor
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
-    std::atomic<float> linearGain;
-    StereoSignalSmoother<float> smoothedGain;
+    juce::AudioProcessorValueTreeState parameters;
+
+    static const char* gainParameterID;
+    static const char* gainParameterName;
 
    private:
-    //==============================================================================
+    float gain{};
+
+    static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainProcessor)
 };

@@ -8,45 +8,45 @@
 
 #include "PossGain.hpp"
 #include "PluginEditor.hpp"
-#include "StereoSignalSmoother.tpp"
+
+const char* PossGainProcessor::gainParameterID = "gainID";
+const char* PossGainProcessor::gainParameterName = "gainName";
 
 //==============================================================================
 PossGainProcessor::PossGainProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
     : AudioProcessor(
           BusesProperties()
-#if !JucePlugin_IsMidiEffect
-#if !JucePlugin_IsSynth
               .withInput("Input", juce::AudioChannelSet::stereo(), true)
-#endif
-              .withOutput("Output", juce::AudioChannelSet::stereo(), true)
-#endif
-              )
+              .withOutput("Output", juce::AudioChannelSet::stereo(), true))
 
 #endif
       ,
-      linearGain(0) {
+      parameters(*this,
+                 nullptr,
+                 "Parameters",
+                 PossGainProcessor::createLayout())
+
+{
 }
 
 PossGainProcessor::~PossGainProcessor() = default;
 
 void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer&) {
-    juce::ScopedNoDenormals noDenormals;
-    const auto totalNumInputChannels =
-        static_cast<size_t>(getTotalNumInputChannels());
-    // size_t totalNumOutputChannels =
-    // static_cast<size_t>(getTotalNumOutputChannels());
+    auto* leftChannel = buffer.getWritePointer(0);
+    auto* rightChannel = buffer.getWritePointer(1);
 
-    smoothedGain.setTarget(linearGain.load());
+    const float targetGain = parameters.getRawParameterValue(gainParameterID)
+                                 ->load(std::memory_order_relaxed);
 
-    for (size_t channel = 0; channel < totalNumInputChannels; ++channel) {
-        auto* channelData = buffer.getWritePointer(static_cast<int>(channel));
+    const auto nSamples = buffer.getNumSamples();
+    for (auto sample = 0; sample < nSamples; sample++) {
+        leftChannel[sample] = this->gain * leftChannel[sample];
+        rightChannel[sample] = this->gain * rightChannel[sample];
 
-        for (size_t sample = 0;
-             sample < static_cast<size_t>(buffer.getNumSamples()); sample++) {
-            channelData[sample] =
-                smoothedGain.get(channel) * channelData[sample];
+        if (!juce::approximatelyEqual(this->gain, targetGain)) {
+            this->gain = 0.5f * (this->gain + targetGain);
         }
     }
 }
@@ -63,6 +63,26 @@ void PossGainProcessor::releaseResources() {
     // spare memory, etc.
 }
 
+juce::AudioProcessorValueTreeState::ParameterLayout
+PossGainProcessor::createLayout() {
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters{};
+
+    constexpr float maxGaindB = 35.0f;
+    const float maxGain = std::powf(10.0f, maxGaindB / 20.0f);
+    constexpr float unityGain = 1.0f;
+
+    juce::NormalisableRange<float> gainRange(0.0f, maxGain);
+    gainRange.setSkewForCentre(unityGain);
+
+    std::unique_ptr<juce::AudioParameterFloat> gainParam(
+        new juce::AudioParameterFloat(PossGainProcessor::gainParameterID,
+                                      PossGainProcessor::gainParameterName,
+                                      gainRange, unityGain));
+    parameters.push_back(std::move(gainParam));
+
+    return {parameters.begin(), parameters.end()};
+}
+
 //================== boiler plate =============================================
 
 const juce::String PossGainProcessor::getName() const {
@@ -70,27 +90,15 @@ const juce::String PossGainProcessor::getName() const {
 }
 
 bool PossGainProcessor::acceptsMidi() const {
-#if JucePlugin_WantsMidiInput
     return true;
-#else
-    return false;
-#endif
 }
 
 bool PossGainProcessor::producesMidi() const {
-#if JucePlugin_ProducesMidiOutput
-    return true;
-#else
     return false;
-#endif
 }
 
 bool PossGainProcessor::isMidiEffect() const {
-#if JucePlugin_IsMidiEffect
-    return true;
-#else
     return false;
-#endif
 }
 
 double PossGainProcessor::getTailLengthSeconds() const {
@@ -113,7 +121,7 @@ void PossGainProcessor::setCurrentProgram(int index) {
 
 const juce::String PossGainProcessor::getProgramName(int index) {
     (void)index;
-    return {};
+    return "PossGain";
 }
 
 void PossGainProcessor::changeProgramName(int index,
@@ -127,26 +135,13 @@ void PossGainProcessor::changeProgramName(int index,
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool PossGainProcessor::isBusesLayoutSupported(
     const BusesLayout& layouts) const {
-#if JucePlugin_IsMidiEffect
-    juce::ignoreUnused(layouts);
-    return true;
-#else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
-    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono() &&
-        layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
+    if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
 
-    // This checks if the input layout matches the output layout
-#if !JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
-#endif
 
     return true;
-#endif
 }
 #endif
 
