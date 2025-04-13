@@ -61,6 +61,14 @@ juce::AudioProcessorValueTreeState::ParameterLayout
 PossGainProcessor::createLayout() {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters{};
 
+    constexpr float maxGaindB = 35.0f;
+    const float maxGain = std::powf(10.0f, maxGaindB / 20.0f);
+    std::unique_ptr<juce::AudioParameterFloat> gainParam(
+        new juce::AudioParameterFloat(PossGainProcessor::gainParameterID,
+                                      PossGainProcessor::gainParameterName,
+                                      0.0f, maxGain, 1.0f));
+    parameters.push_back(std::move(gainParam));
+
     return {parameters.begin(), parameters.end()};
 }
 
