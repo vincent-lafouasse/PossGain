@@ -22,6 +22,12 @@ PossGainProcessor::PossGainProcessor()
 
 #endif
       ,
+      parameters(*this,
+                 nullptr,
+                 "Parameters",
+                 PossGainProcessor::createLayout())
+
+      ,
       linearGain(0) {
 }
 

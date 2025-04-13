@@ -57,6 +57,8 @@ class PossGainProcessor : public juce::AudioProcessor
     void getStateInformation(juce::MemoryBlock& destData) override;
     void setStateInformation(const void* data, int sizeInBytes) override;
 
+    juce::AudioProcessorValueTreeState parameters;
+
     std::atomic<float> linearGain;
     float gain{};
 
