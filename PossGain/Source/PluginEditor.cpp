@@ -9,7 +9,10 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
       muteButton("Mute"),
       gainSliderAttachment(p.parameters,
                            PossGainProcessor::gainParameterID,
-                           this->gainSlider) {
+                           this->gainSlider),
+      muteButtonAttachment(p.parameters,
+                           PossGainProcessor::muteParameterID,
+                           this->muteButton) {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     constexpr int width = 200;
