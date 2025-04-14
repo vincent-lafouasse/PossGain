@@ -108,32 +108,6 @@ void PossGainEditor::resized() {
     dcCutButton.setBounds(muteButtonPanel);
 }
 
-juce::String GainKnob::getTextFromValue(double value) {
-    if (value == 0.0)
-        return "-inf dB";
-
-    if (juce::approximatelyEqual(value, 1.0))
-        return "0.00 dB";
-
-    std::stringstream ss{};
-    ss << std::setprecision(3);
-    ss << 20.0 * std::log10(value);
-    ss << " dB";
-    return ss.str();
-}
-
-juce::String BalanceKnob::getTextFromValue(double value) {
-    if (juce::approximatelyEqual(value, 0.5)) {
-        return "C";
-    }
-
-    const int panAmount =
-        static_cast<int>(std::round(std::fabs(value * 100.0 - 50.0)));
-    const char* panDirection = value > 0.5 ? "R" : "L";
-
-    return std::to_string(panAmount) + panDirection;
-}
-
 void PossGainEditor::paint(juce::Graphics& g) {
     g.fillAll(
         getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));

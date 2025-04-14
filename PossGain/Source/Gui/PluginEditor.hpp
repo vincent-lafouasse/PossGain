@@ -1,17 +1,9 @@
 #pragma once
 
+#include "BalanceKnob.hpp"
+#include "GainKnob.hpp"
 #include "OutputPanel.hpp"
 #include "PossGain.hpp"
-
-class GainKnob : public juce::Slider {
-   public:
-    juce::String getTextFromValue(double value) override;
-};
-
-class BalanceKnob : public juce::Slider {
-   public:
-    juce::String getTextFromValue(double value) override;
-};
 
 class PossGainEditor : public juce::AudioProcessorEditor {
    public:
