@@ -16,6 +16,8 @@ juce_add_plugin("${BaseTargetName}"
         FORMATS AU VST3 Standalone
         PRODUCT_NAME "PossGain")
 
+juce_generate_juce_header(${BaseTargetName})
+
 target_sources(${BaseTargetName} PRIVATE
         Source/PossGain.cpp
         Source/PossGain.hpp
