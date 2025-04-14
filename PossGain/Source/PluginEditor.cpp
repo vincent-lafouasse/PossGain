@@ -39,6 +39,9 @@ void PossGainEditor::setupGainKnob() {
 
     addAndMakeVisible(gainLabel);
     gainLabel.setText("Gain", juce::dontSendNotification);
+
+    using flags = juce::Justification::Flags;
+    gainLabel.setJustificationType(flags::verticallyCentred | flags::horizontallyCentred);
 }
 
 void PossGainEditor::resized() {
