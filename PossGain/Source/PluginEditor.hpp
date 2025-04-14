@@ -25,7 +25,7 @@ class PossGainEditor : public juce::AudioProcessorEditor {
     void setupBalanceKnob();
     PossGainProcessor& audioProcessor;
 
-   juce::Label outputPanelLabel;
+    juce::Label outputPanelLabel;
 
     GainKnob gainSlider;
     juce::Label gainLabel;
