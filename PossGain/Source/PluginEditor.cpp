@@ -12,6 +12,9 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
       gainSliderAttachment(p.parameters,
                            PossGainProcessor::gainParameterID,
                            this->gainSlider),
+      balanceSliderAttachment(p.parameters,
+                              PossGainProcessor::balanceParameterID,
+                              this->balanceSlider),
       muteButtonAttachment(p.parameters,
                            PossGainProcessor::muteParameterID,
                            this->muteButton) {
