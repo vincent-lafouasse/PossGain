@@ -1,7 +1,7 @@
 #pragma once
 
-#include "PossGain.hpp"
 #include "OutputPanel.hpp"
+#include "PossGain.hpp"
 
 class GainKnob : public juce::Slider {
    public:
@@ -37,8 +37,7 @@ class PossGainEditor : public juce::AudioProcessorEditor {
     juce::TextButton muteButton;
     juce::TextButton dcCutButton;
 
-   OutputPanel outputPanel{};
-
+    OutputPanel outputPanel{};
 
    public:
     juce::AudioProcessorValueTreeState::SliderAttachment gainSliderAttachment;
