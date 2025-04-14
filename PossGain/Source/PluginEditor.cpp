@@ -108,9 +108,11 @@ juce::String GainKnob::getTextFromValue(double value) {
     if (value == 0.0)
         return "-inf dB";
 
+    if (juce::approximatelyEqual(value, 1.0))
+        return "0.00 dB";
+
     std::stringstream ss{};
-    ss << std::fixed;
-    ss << std::setprecision(1);
+    ss << std::setprecision(3);
     ss << 20.0 * std::log10(value);
     ss << " dB";
     return ss.str();
