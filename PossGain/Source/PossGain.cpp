@@ -8,7 +8,7 @@
 
 #include "PossGain.hpp"
 #include <atomic>
-#include "PluginEditor.hpp"
+#include "Gui/PluginEditor.hpp"
 
 #define LEFT 0
 #define RIGHT 1

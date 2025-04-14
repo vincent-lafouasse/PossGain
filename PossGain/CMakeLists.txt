@@ -19,9 +19,15 @@ juce_add_plugin("${BaseTargetName}"
 target_sources(${BaseTargetName} PRIVATE
         Source/PossGain.cpp
         Source/PossGain.hpp
-        Source/PluginEditor.cpp
-        Source/PluginEditor.hpp
+        Source/Gui/PluginEditor.cpp
+        Source/Gui/PluginEditor.hpp
+        Source/Gui/OutputPanel.cpp
+        Source/Gui/OutputPanel.hpp
         Source/Parameters.h
+)
+
+target_include_directories(${BaseTargetName} PUBLIC
+        Source/
 )
 
 target_compile_definitions(${BaseTargetName}
