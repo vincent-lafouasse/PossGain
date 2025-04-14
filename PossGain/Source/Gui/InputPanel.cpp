@@ -1,7 +1,14 @@
 #include "InputPanel.hpp"
 #include "PossGain.hpp"
 
-InputPanel::InputPanel(PossGainProcessor& p) : processor(p) {
+InputPanel::InputPanel(PossGainProcessor& p)
+    : processor(p),
+      leftPhaseInvertButton("ϕL"),
+      rightPhaseInvertButton("ϕR"),
+      monoButton("Mono"),
+      bassMonoButton("Bass Mono"),
+      bassMonoCutoffButton("420 Hz"),
+      bassMonoAudiationButton("🎧") {
     constexpr int width = 200;
     constexpr int height = 400;
     setSize(width, height);
@@ -13,7 +20,18 @@ InputPanel::InputPanel(PossGainProcessor& p) : processor(p) {
     heading.setJustificationType(flags::verticallyCentred |
                                  flags::horizontallyCentred);
 
+    addAndMakeVisible(leftPhaseInvertButton);
+    addAndMakeVisible(rightPhaseInvertButton);
+
+    addAndMakeVisible(channelModeSelection);
+
     this->setupWidthSlider();
+
+    addAndMakeVisible(monoButton);
+    addAndMakeVisible(bassMonoButton);
+
+    addAndMakeVisible(bassMonoCutoffButton);
+    addAndMakeVisible(bassMonoAudiationButton);
 }
 
 InputPanel::~InputPanel() = default;
@@ -50,11 +68,31 @@ void InputPanel::resized() {
     juce::Rectangle<int> area = this->getLocalBounds();
 
     const auto headingPanel = area.removeFromTop(30);
-    auto widthSliderPanel = area;
+    const auto height = area.getHeight();
+
+    auto inputChannelPanel = area.removeFromTop(height / 5);
+    auto widthSliderPanel = area.removeFromTop(2 * height / 5);
+    auto monoPanel = area;
 
     heading.setBounds(headingPanel);
+
+    auto phaseInversalPanel =
+        inputChannelPanel.removeFromTop(inputChannelPanel.getHeight() / 2);
+    leftPhaseInvertButton.setBounds(
+        phaseInversalPanel.removeFromLeft(this->getWidth() / 2));
+    rightPhaseInvertButton.setBounds(phaseInversalPanel);
+
+    channelModeSelection.setBounds(inputChannelPanel);
 
     constexpr int labelHeight = 20;
     widthLabel.setBounds(widthSliderPanel.removeFromTop(labelHeight));
     widthSlider.setBounds(widthSliderPanel);
+
+    const auto monoPanelHeight = monoPanel.getHeight();
+    monoButton.setBounds(monoPanel.removeFromTop(monoPanelHeight / 3));
+    bassMonoButton.setBounds(monoPanel.removeFromTop(monoPanelHeight / 3));
+
+    bassMonoCutoffButton.setBounds(
+        monoPanel.removeFromLeft(7 * this->getWidth() / 10));
+    bassMonoAudiationButton.setBounds(monoPanel);
 }

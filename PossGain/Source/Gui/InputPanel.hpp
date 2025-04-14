@@ -18,8 +18,20 @@ class InputPanel final : public juce::Component {
 
     juce::Label heading;
 
+    juce::TextButton leftPhaseInvertButton;
+    juce::TextButton rightPhaseInvertButton;
+
+    juce::ComboBox channelModeSelection;
+
     PercentageKnob widthSlider;
     juce::Label widthLabel;
+
+    juce::TextButton monoButton;
+
+    juce::TextButton bassMonoButton;
+
+    juce::TextButton bassMonoCutoffButton;
+    juce::TextButton bassMonoAudiationButton;
 
    public:
     // juce::AudioProcessorValueTreeState::SliderAttachment
