@@ -1,9 +1,4 @@
 #include "OutputPanel.hpp"
-
-#include <cmath>
-#include <iomanip>
-#include <sstream>
-
 #include "PossGain.hpp"
 
 OutputPanel::OutputPanel(PossGainProcessor& p)

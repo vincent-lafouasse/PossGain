@@ -2,6 +2,10 @@
 
 #include "JuceHeader.h"
 
+#include <cmath>
+#include <iomanip>
+#include <sstream>
+
 class GainKnob : public juce::Slider {
    public:
     juce::String getTextFromValue(double value) override {
