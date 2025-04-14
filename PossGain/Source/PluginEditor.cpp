@@ -8,6 +8,7 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     : AudioProcessorEditor(&p),
       audioProcessor(p),
       muteButton("Mute"),
+      dcCutButton("DC"),
       gainSliderAttachment(p.parameters,
                            PossGainProcessor::gainParameterID,
                            this->gainSlider),
@@ -25,6 +26,9 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
 
     addAndMakeVisible(muteButton);
     muteButton.setClickingTogglesState(true);
+
+    addAndMakeVisible(dcCutButton);
+    dcCutButton.setClickingTogglesState(true);
 }
 
 PossGainEditor::~PossGainEditor() = default;
@@ -73,11 +77,9 @@ void PossGainEditor::setupBalanceKnob() {
 void PossGainEditor::resized() {
     juce::Rectangle<int> window = this->getLocalBounds();
 
-    const auto muteButtonPanel = window.removeFromBottom(40);
+    auto muteButtonPanel = window.removeFromBottom(40);
     auto gainKnobPanel = window.removeFromTop(window.getHeight() / 2);
     auto balanceKnobPanel = window;
-
-    muteButton.setBounds(muteButtonPanel);
 
     constexpr int gainLabelHeight = 20;
     gainLabel.setBounds(gainKnobPanel.removeFromTop(gainLabelHeight));
@@ -86,6 +88,10 @@ void PossGainEditor::resized() {
     constexpr int balanceLabelHeight = 20;
     balanceLabel.setBounds(balanceKnobPanel.removeFromTop(balanceLabelHeight));
     balanceSlider.setBounds(balanceKnobPanel);
+
+    muteButton.setBounds(
+        muteButtonPanel.removeFromLeft(muteButtonPanel.getWidth() / 2));
+    dcCutButton.setBounds(muteButtonPanel);
 }
 
 juce::String GainKnob::getTextFromValue(double value) {
