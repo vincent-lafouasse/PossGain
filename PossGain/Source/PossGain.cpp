@@ -60,7 +60,8 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
         if (!juce::approximatelyEqual(this->gain, targetGain)) {
             constexpr float forwardWeight = 0.05f;
-            this->gain = (1.0f - forwardWeight) * this->gain + forwardWeight * targetGain;
+            this->gain = (1.0f - forwardWeight) * this->gain +
+                         forwardWeight * targetGain;
         }
     }
 }
