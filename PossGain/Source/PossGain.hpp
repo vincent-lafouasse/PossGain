@@ -10,6 +10,8 @@
 
 #include <juce_audio_processors/juce_audio_processors.h>
 
+#include <array>
+
 //==============================================================================
 /**
  */
@@ -63,6 +65,8 @@ class PossGainProcessor : public juce::AudioProcessor
     static const char* gainParameterName;
     static const char* muteParameterID;
     static const char* muteParameterName;
+    static const char* balanceParameterID;
+    static const char* balanceParameterName;
 
    private:
     float gain{};

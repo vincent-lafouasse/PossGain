@@ -14,6 +14,8 @@ const char* PossGainProcessor::gainParameterID = "gainID";
 const char* PossGainProcessor::gainParameterName = "gainName";
 const char* PossGainProcessor::muteParameterID = "muteID";
 const char* PossGainProcessor::muteParameterName = "muteName";
+const char* PossGainProcessor::balanceParameterID = "balanceID";
+const char* PossGainProcessor::balanceParameterName = "balanceName";
 
 //==============================================================================
 PossGainProcessor::PossGainProcessor()
@@ -99,6 +101,13 @@ PossGainProcessor::createLayout() {
         PossGainProcessor::muteParameterID,
         PossGainProcessor::muteParameterName, false));
     parameters.push_back(std::move(mute));
+
+    const juce::NormalisableRange balanceRange(0.0f, 1.0f);
+    std::unique_ptr<juce::AudioParameterFloat> balanceParam(
+        new juce::AudioParameterFloat(PossGainProcessor::balanceParameterID,
+                                      PossGainProcessor::balanceParameterName,
+                                      balanceRange, 0.5f));
+    parameters.push_back(std::move(balanceParam));
 
     return {parameters.begin(), parameters.end()};
 }
