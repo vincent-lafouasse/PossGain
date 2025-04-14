@@ -105,22 +105,16 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
     }
 }
 
-void PossGainProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need...
-    (void)sampleRate;
-    (void)samplesPerBlock;
-}
+void PossGainProcessor::prepareToPlay(double /*sampleRate*/,
+                                      int /*samplesPerBlock*/) {}
 
-void PossGainProcessor::releaseResources() {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
-}
+void PossGainProcessor::releaseResources() {}
 
 juce::AudioProcessorValueTreeState::ParameterLayout
 PossGainProcessor::createLayout() {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters{};
 
+    // gain parameter
     constexpr float maxGaindB = 35.0f;
     const float maxGain = std::powf(10.0f, maxGaindB / 20.0f);
     constexpr float unityGain = 1.0f;
@@ -134,11 +128,13 @@ PossGainProcessor::createLayout() {
                                       gainRange, unityGain));
     parameters.push_back(std::move(gainParam));
 
+    // mute parameter
     std::unique_ptr<juce::AudioParameterBool> mute(new juce::AudioParameterBool(
         PossGainProcessor::muteParameterID,
         PossGainProcessor::muteParameterName, false));
     parameters.push_back(std::move(mute));
 
+    // balance parameter
     const juce::NormalisableRange balanceRange(0.0f, 1.0f);
     std::unique_ptr<juce::AudioParameterFloat> balanceParam(
         new juce::AudioParameterFloat(PossGainProcessor::balanceParameterID,
@@ -172,29 +168,21 @@ double PossGainProcessor::getTailLengthSeconds() const {
 }
 
 int PossGainProcessor::getNumPrograms() {
-    return 1;  // NB: some hosts don't cope very well if you tell them there are
-               // 0 programs, so this should be at least 1, even if you're not
-               // really implementing programs.
+    return 1;
 }
 
 int PossGainProcessor::getCurrentProgram() {
     return 0;
 }
 
-void PossGainProcessor::setCurrentProgram(int index) {
-    (void)index;
-}
+void PossGainProcessor::setCurrentProgram(int /*index*/) {}
 
-const juce::String PossGainProcessor::getProgramName(int index) {
-    (void)index;
+const juce::String PossGainProcessor::getProgramName(int /*index*/) {
     return "PossGain";
 }
 
-void PossGainProcessor::changeProgramName(int index,
-                                          const juce::String& newName) {
-    (void)index;
-    (void)newName;
-}
+void PossGainProcessor::changeProgramName(int /*index*/,
+                                          const juce::String& /*newName*/) {}
 
 //==============================================================================
 
@@ -214,8 +202,7 @@ bool PossGainProcessor::isBusesLayoutSupported(
 //==============================================================================
 
 bool PossGainProcessor::hasEditor() const {
-    return true;  // (change this to false if you choose to not supply an
-                  // editor)
+    return true;
 }
 
 juce::AudioProcessorEditor* PossGainProcessor::createEditor() {
@@ -223,20 +210,10 @@ juce::AudioProcessorEditor* PossGainProcessor::createEditor() {
 }
 
 //==============================================================================
-void PossGainProcessor::getStateInformation(juce::MemoryBlock& destData) {
-    // You should use this method to store your parameters in the memory block.
-    // You could do that either as raw data, or use the XML or ValueTree classes
-    // as intermediaries to make it easy to save and load complex data.
-    (void)destData;
-}
+void PossGainProcessor::getStateInformation(juce::MemoryBlock& /*destData*/) {}
 
-void PossGainProcessor::setStateInformation(const void* data, int sizeInBytes) {
-    // You should use this method to restore your parameters from this memory
-    // block, whose contents will have been created by the getStateInformation()
-    // call.
-    (void)data;
-    (void)sizeInBytes;
-}
+void PossGainProcessor::setStateInformation(const void* /*data*/,
+                                            int /*sizeInBytes*/) {}
 
 //==============================================================================
 // This creates new instances of the plugin...
