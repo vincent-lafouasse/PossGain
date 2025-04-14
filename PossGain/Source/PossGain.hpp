@@ -12,6 +12,25 @@
 
 #include <array>
 
+#define LEFT 0
+#define RIGHT 1
+
+struct StereoBuffer {
+    StereoBuffer(juce::AudioBuffer<float>& buffer) {
+        this->leftInput = buffer.getReadPointer(LEFT);
+        this->rightInput = buffer.getReadPointer(RIGHT);
+        this->leftOutput = buffer.getWritePointer(LEFT);
+        this->rightOutput = buffer.getWritePointer(RIGHT);
+        this->sz = buffer.getNumSamples();
+    }
+
+    const float* leftInput;
+    const float* rightInput;
+    float* leftOutput;
+    float* rightOutput;
+    int sz;
+};
+
 //==============================================================================
 /**
  */
@@ -35,6 +54,7 @@ class PossGainProcessor : public juce::AudioProcessor
 #endif
 
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
+    void applyPan(StereoBuffer&, float);
 
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;

@@ -40,6 +40,39 @@ PossGainProcessor::PossGainProcessor()
 
 PossGainProcessor::~PossGainProcessor() = default;
 
+void PossGainProcessor::processBlock(juce::AudioBuffer<float>& juceBuffer,
+                                     juce::MidiBuffer&) {
+    const bool muteButtonPressed =
+        parameters.getRawParameterValue(muteParameterID)->load() > 0.5;
+
+    if (muteButtonPressed && juce::approximatelyEqual(this->gain, 0.0f)) {
+        juceBuffer.clear();
+        return;
+    }
+
+    const float targetGain =
+        muteButtonPressed
+            ? 0.0f
+            : parameters.getRawParameterValue(gainParameterID)->load();
+
+    StereoBuffer buffer(juceBuffer);
+    for (auto sample = 0; sample < buffer.sz; sample++) {
+        buffer.leftOutput[sample] = this->gain * buffer.leftInput[sample];
+        buffer.rightOutput[sample] = this->gain * buffer.rightInput[sample];
+
+        if (!juce::approximatelyEqual(this->gain, targetGain)) {
+            constexpr float forwardWeight = 0.05f;
+            this->gain = (1.0f - forwardWeight) * this->gain +
+                         forwardWeight * targetGain;
+        }
+    }
+
+    this->applyPan(
+        buffer,
+        parameters.getRawParameterValue(PossGainProcessor::balanceParameterID)
+            ->load());
+}
+
 namespace {
 std::array<float, 2> rawBalancetoBalance(const float value) {
     float reducedGain = 1.0f - 2.0f * std::fabs(value - 0.5f);
@@ -54,40 +87,14 @@ std::array<float, 2> rawBalancetoBalance(const float value) {
 }
 }  // namespace
 
-void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
-                                     juce::MidiBuffer&) {
-    auto* leftChannel = buffer.getWritePointer(LEFT);
-    auto* rightChannel = buffer.getWritePointer(RIGHT);
+void PossGainProcessor::applyPan(StereoBuffer& buffer, float pan) {
+    const std::array<float, 2> targetBalance = rawBalancetoBalance(pan);
 
-    const bool muteButtonPressed =
-        parameters.getRawParameterValue(muteParameterID)->load() > 0.5;
-
-    if (muteButtonPressed && juce::approximatelyEqual(this->gain, 0.0f)) {
-        buffer.clear();
-        return;
-    }
-
-    const float targetGain =
-        muteButtonPressed
-            ? 0.0f
-            : parameters.getRawParameterValue(gainParameterID)->load();
-
-    const std::array<float, 2> targetBalance = rawBalancetoBalance(
-        parameters.getRawParameterValue(PossGainProcessor::balanceParameterID)
-            ->load());
-
-    const auto nSamples = buffer.getNumSamples();
-    for (auto sample = 0; sample < nSamples; sample++) {
-        leftChannel[sample] =
-            this->gain * this->balance[LEFT] * leftChannel[sample];
-        rightChannel[sample] =
-            this->gain * this->balance[RIGHT] * rightChannel[sample];
-
-        if (!juce::approximatelyEqual(this->gain, targetGain)) {
-            constexpr float forwardWeight = 0.05f;
-            this->gain = (1.0f - forwardWeight) * this->gain +
-                         forwardWeight * targetGain;
-        }
+    for (auto sample = 0; sample < buffer.sz; sample++) {
+        buffer.leftOutput[sample] =
+            this->balance[LEFT] * buffer.leftInput[sample];
+        buffer.rightOutput[sample] =
+            this->balance[RIGHT] * buffer.rightInput[sample];
 
         if (!juce::approximatelyEqual(this->balance[LEFT],
                                       targetBalance[LEFT])) {
