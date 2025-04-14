@@ -9,6 +9,7 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
       audioProcessor(p),
       muteButton("Mute"),
       dcCutButton("DC"),
+      outputPanel(p),
       gainSliderAttachment(p.parameters,
                            PossGainProcessor::gainParameterID,
                            this->gainSlider),
