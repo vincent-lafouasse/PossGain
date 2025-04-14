@@ -1,4 +1,5 @@
 #include "PluginEditor.hpp"
+#include <cmath>
 #include <iomanip>
 #include <sstream>
 #include "PossGain.hpp"
@@ -20,6 +21,7 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     setSize(width, height);
 
     this->setupGainKnob();
+    this->setupBalanceKnob();
 
     addAndMakeVisible(muteButton);
     muteButton.setClickingTogglesState(true);
@@ -41,17 +43,49 @@ void PossGainEditor::setupGainKnob() {
     gainLabel.setText("Gain", juce::dontSendNotification);
 
     using flags = juce::Justification::Flags;
-    gainLabel.setJustificationType(flags::verticallyCentred | flags::horizontallyCentred);
+    gainLabel.setJustificationType(flags::verticallyCentred |
+                                   flags::horizontallyCentred);
+}
+
+void PossGainEditor::setupBalanceKnob() {
+    addAndMakeVisible(balanceSlider);
+    balanceSlider.setSliderStyle(
+        juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    constexpr int value_textbox_width = 100;
+    constexpr int value_textbox_height = 25;
+    balanceSlider.setTextBoxStyle(
+        juce::Slider::TextEntryBoxPosition::TextBoxBelow, true,
+        value_textbox_width, value_textbox_height);
+    balanceSlider.setDoubleClickReturnValue(true, 0.5);
+
+    // will be taken care of by APVTS:
+    balanceSlider.setRange(0.0, 1.0);
+    balanceSlider.setValue(0.5);
+
+    addAndMakeVisible(balanceLabel);
+    balanceLabel.setText("Balance", juce::dontSendNotification);
+
+    using flags = juce::Justification::Flags;
+    balanceLabel.setJustificationType(flags::verticallyCentred |
+                                      flags::horizontallyCentred);
 }
 
 void PossGainEditor::resized() {
     juce::Rectangle<int> window = this->getLocalBounds();
 
-    muteButton.setBounds(window.removeFromBottom(40));
+    const auto muteButtonPanel = window.removeFromBottom(40);
+    auto gainKnobPanel = window.removeFromTop(window.getHeight() / 2);
+    auto balanceKnobPanel = window;
+
+    muteButton.setBounds(muteButtonPanel);
 
     constexpr int gainLabelHeight = 20;
-    gainLabel.setBounds(window.removeFromTop(gainLabelHeight));
-    gainSlider.setBounds(window);
+    gainLabel.setBounds(gainKnobPanel.removeFromTop(gainLabelHeight));
+    gainSlider.setBounds(gainKnobPanel);
+
+    constexpr int balanceLabelHeight = 20;
+    balanceLabel.setBounds(balanceKnobPanel.removeFromTop(balanceLabelHeight));
+    balanceSlider.setBounds(balanceKnobPanel);
 }
 
 juce::String GainKnob::getTextFromValue(double value) {
@@ -64,6 +98,18 @@ juce::String GainKnob::getTextFromValue(double value) {
     ss << 20.0 * std::log10(value);
     ss << " dB";
     return ss.str();
+}
+
+juce::String BalanceKnob::getTextFromValue(double value) {
+    if (juce::approximatelyEqual(value, 0.5)) {
+        return "C";
+    }
+
+    const int panAmount =
+        static_cast<int>(std::round(std::fabs(value * 100.0 - 50.0)));
+    const char* panDirection = value > 0.5 ? "R" : "L";
+
+    return std::to_string(panAmount) + panDirection;
 }
 
 void PossGainEditor::paint(juce::Graphics& g) {
