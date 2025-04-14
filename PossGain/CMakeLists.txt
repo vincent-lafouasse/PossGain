@@ -30,6 +30,9 @@ target_sources(${BaseTargetName} PRIVATE
         Source/Gui/OutputPanel.hpp
         Source/Gui/GainKnob.hpp
         Source/Gui/BalanceKnob.hpp
+
+        Source/Gui/InputPanel.cpp
+        Source/Gui/InputPanel.hpp
 )
 
 target_include_directories(${BaseTargetName} PUBLIC
