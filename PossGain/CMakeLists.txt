@@ -32,6 +32,7 @@ target_sources(${BaseTargetName} PRIVATE
 
         Source/Gui/InputPanel.cpp
         Source/Gui/InputPanel.hpp
+        Source/Gui/PercentageKnob.hpp
 )
 
 target_include_directories(${BaseTargetName} PUBLIC

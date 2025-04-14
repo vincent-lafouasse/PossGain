@@ -1,6 +1,7 @@
 #pragma once
 
 #include "JuceHeader.h"
+#include "PercentageKnob.hpp"
 #include "PossGain.hpp"
 
 class InputPanel final : public juce::Component {
@@ -17,7 +18,7 @@ class InputPanel final : public juce::Component {
 
     juce::Label heading;
 
-    juce::Slider widthSlider;
+    PercentageKnob widthSlider;
     juce::Label widthLabel;
 
    public:
