@@ -21,7 +21,6 @@ juce_generate_juce_header(${BaseTargetName})
 target_sources(${BaseTargetName} PRIVATE
         Source/PossGain.cpp
         Source/PossGain.hpp
-        Source/Parameters.h
 
         Source/Gui/PluginEditor.cpp
         Source/Gui/PluginEditor.hpp
