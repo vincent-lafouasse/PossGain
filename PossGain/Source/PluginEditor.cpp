@@ -21,6 +21,13 @@ PossGainEditor::PossGainEditor(PossGainProcessor& p)
     constexpr int height = 400;
     setSize(width, height);
 
+    addAndMakeVisible(outputPanelLabel);
+    outputPanelLabel.setText("Output", juce::dontSendNotification);
+
+    using flags = juce::Justification::Flags;
+    outputPanelLabel.setJustificationType(flags::verticallyCentred |
+                                          flags::horizontallyCentred);
+
     this->setupGainKnob();
     this->setupBalanceKnob();
 
@@ -77,9 +84,12 @@ void PossGainEditor::setupBalanceKnob() {
 void PossGainEditor::resized() {
     juce::Rectangle<int> window = this->getLocalBounds();
 
+    const auto outputPanelLabelPanel = window.removeFromTop(30);
     auto muteButtonPanel = window.removeFromBottom(40);
     auto gainKnobPanel = window.removeFromTop(window.getHeight() / 2);
     auto balanceKnobPanel = window;
+
+    outputPanelLabel.setBounds(outputPanelLabelPanel);
 
     constexpr int gainLabelHeight = 20;
     gainLabel.setBounds(gainKnobPanel.removeFromTop(gainLabelHeight));
