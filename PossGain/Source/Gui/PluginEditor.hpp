@@ -1,7 +1,5 @@
 #pragma once
 
-#include "BalanceKnob.hpp"
-#include "GainKnob.hpp"
 #include "OutputPanel.hpp"
 #include "PossGain.hpp"
 
@@ -14,28 +12,8 @@ class PossGainEditor : public juce::AudioProcessorEditor {
     void resized() override;
 
    private:
-    void setupGainKnob();
-    void setupBalanceKnob();
     PossGainProcessor& audioProcessor;
-
-    juce::Label outputPanelLabel;
-
-    GainKnob gainSlider;
-    juce::Label gainLabel;
-
-    BalanceKnob balanceSlider;
-    juce::Label balanceLabel;
-
-    juce::TextButton muteButton;
-    juce::TextButton dcCutButton;
-
     OutputPanel outputPanel;
-
-   public:
-    juce::AudioProcessorValueTreeState::SliderAttachment gainSliderAttachment;
-    juce::AudioProcessorValueTreeState::SliderAttachment
-        balanceSliderAttachment;
-    juce::AudioProcessorValueTreeState::ButtonAttachment muteButtonAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PossGainEditor)
 };
