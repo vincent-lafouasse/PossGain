@@ -10,9 +10,6 @@
 #include <atomic>
 #include "Gui/PluginEditor.hpp"
 
-#define LEFT 0
-#define RIGHT 1
-
 const char* PossGainProcessor::gainParameterID = "gainID";
 const char* PossGainProcessor::gainParameterName = "gainName";
 const char* PossGainProcessor::muteParameterID = "muteID";
@@ -50,12 +47,21 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& juceBuffer,
         return;
     }
 
+    StereoBuffer buffer(juceBuffer);
+
     const float targetGain =
         muteButtonPressed
             ? 0.0f
             : parameters.getRawParameterValue(gainParameterID)->load();
+    this->applyGain(buffer, targetGain);
 
-    StereoBuffer buffer(juceBuffer);
+    const float targetPan =
+        parameters.getRawParameterValue(PossGainProcessor::balanceParameterID)
+            ->load();
+    this->applyPan(buffer, targetPan);
+}
+
+void PossGainProcessor::applyGain(StereoBuffer& buffer, float targetGain) {
     for (auto sample = 0; sample < buffer.sz; sample++) {
         buffer.leftOutput[sample] = this->gain * buffer.leftInput[sample];
         buffer.rightOutput[sample] = this->gain * buffer.rightInput[sample];
@@ -66,11 +72,6 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& juceBuffer,
                          forwardWeight * targetGain;
         }
     }
-
-    this->applyPan(
-        buffer,
-        parameters.getRawParameterValue(PossGainProcessor::balanceParameterID)
-            ->load());
 }
 
 namespace {

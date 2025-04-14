@@ -54,6 +54,7 @@ class PossGainProcessor : public juce::AudioProcessor
 #endif
 
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
+    void applyGain(StereoBuffer&, float);
     void applyPan(StereoBuffer&, float);
 
     //==============================================================================
