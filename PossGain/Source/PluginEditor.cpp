@@ -49,8 +49,8 @@ void PossGainEditor::resized() {
 
     muteButton.setBounds(window.removeFromBottom(40));
 
-    constexpr int gainLabelHeight = 40;
-    gainLabel.setBounds(window.removeFromBottom(gainLabelHeight));
+    constexpr int gainLabelHeight = 20;
+    gainLabel.setBounds(window.removeFromTop(gainLabelHeight));
     gainSlider.setBounds(window);
 }
 
