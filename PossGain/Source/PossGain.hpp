@@ -70,6 +70,7 @@ class PossGainProcessor : public juce::AudioProcessor
 
    private:
     float gain{};
+    std::array<float, 2> balance{};
 
     static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
 

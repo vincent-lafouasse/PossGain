@@ -10,6 +10,9 @@
 #include <atomic>
 #include "PluginEditor.hpp"
 
+#define LEFT 0
+#define RIGHT 1
+
 const char* PossGainProcessor::gainParameterID = "gainID";
 const char* PossGainProcessor::gainParameterName = "gainName";
 const char* PossGainProcessor::muteParameterID = "muteID";
@@ -37,10 +40,24 @@ PossGainProcessor::PossGainProcessor()
 
 PossGainProcessor::~PossGainProcessor() = default;
 
+namespace {
+std::array<float, 2> rawBalancetoBalance(const float value) {
+    float reducedGain = 1.0f - 2.0f * std::fabs(value - 0.5f);
+
+    if (value > 0.5f) {
+        // left
+        return {reducedGain, 1.0f};
+    } else {
+        // right
+        return {1.0f, reducedGain};
+    }
+}
+}  // namespace
+
 void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
                                      juce::MidiBuffer&) {
-    auto* leftChannel = buffer.getWritePointer(0);
-    auto* rightChannel = buffer.getWritePointer(1);
+    auto* leftChannel = buffer.getWritePointer(LEFT);
+    auto* rightChannel = buffer.getWritePointer(RIGHT);
 
     const bool muteButtonPressed =
         parameters.getRawParameterValue(muteParameterID)->load() > 0.5;
@@ -55,15 +72,35 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& buffer,
             ? 0.0f
             : parameters.getRawParameterValue(gainParameterID)->load();
 
+    const std::array<float, 2> targetBalance = rawBalancetoBalance(
+        parameters.getRawParameterValue(PossGainProcessor::balanceParameterID)
+            ->load());
+
     const auto nSamples = buffer.getNumSamples();
     for (auto sample = 0; sample < nSamples; sample++) {
-        leftChannel[sample] = this->gain * leftChannel[sample];
-        rightChannel[sample] = this->gain * rightChannel[sample];
+        leftChannel[sample] =
+            this->gain * this->balance[LEFT] * leftChannel[sample];
+        rightChannel[sample] =
+            this->gain * this->balance[RIGHT] * rightChannel[sample];
 
         if (!juce::approximatelyEqual(this->gain, targetGain)) {
             constexpr float forwardWeight = 0.05f;
             this->gain = (1.0f - forwardWeight) * this->gain +
                          forwardWeight * targetGain;
+        }
+
+        if (!juce::approximatelyEqual(this->balance[LEFT],
+                                      targetBalance[LEFT])) {
+            constexpr float forwardWeight = 0.1f;
+            this->balance[LEFT] = (1.0f - forwardWeight) * this->balance[LEFT] +
+                                  forwardWeight * targetBalance[LEFT];
+        }
+        if (!juce::approximatelyEqual(this->balance[RIGHT],
+                                      targetBalance[RIGHT])) {
+            constexpr float forwardWeight = 0.1f;
+            this->balance[RIGHT] =
+                (1.0f - forwardWeight) * this->balance[RIGHT] +
+                forwardWeight * targetBalance[RIGHT];
         }
     }
 }
