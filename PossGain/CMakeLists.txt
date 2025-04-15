@@ -23,6 +23,7 @@ target_sources(${BaseTargetName} PRIVATE
         Source/PossGain.hpp
 
         Source/Processing/Processor.hpp
+        Source/Processing/Buffer.hpp
 
         Source/Gui/PluginEditor.cpp
         Source/Gui/PluginEditor.hpp

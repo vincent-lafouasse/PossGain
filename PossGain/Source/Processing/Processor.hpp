@@ -1,10 +1,10 @@
 #pragma once
 
-#include "JuceHeader.h"
+#include "Buffer.hpp"
 
 namespace Poss {
 class Processor {
 public:
-    virtual void processBlock(juce::AudioBuffer<float>&) = 0;
+    virtual void processBlock(Buffer&) = 0;
 };
 }
