@@ -13,7 +13,7 @@ class PossGainEditor : public juce::AudioProcessorEditor {
     void resized() override;
 
    private:
-    PossGainProcessor& audioProcessor;
+    [[maybe_unused]] PossGainProcessor& audioProcessor;
     InputPanel inputPanel;
     OutputPanel outputPanel;
 

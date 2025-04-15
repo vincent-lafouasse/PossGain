@@ -14,7 +14,7 @@ class InputPanel final : public juce::Component {
    private:
     void setupWidthSlider();
 
-    PossGainProcessor& processor;
+    [[maybe_unused]] PossGainProcessor& processor;
 
     juce::Label heading;
 

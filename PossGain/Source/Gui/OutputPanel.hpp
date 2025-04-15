@@ -15,7 +15,8 @@ class OutputPanel final : public juce::Component {
    private:
     void setupGainKnob();
     void setupBalanceKnob();
-    PossGainProcessor& processor;
+
+    [[maybe_unused]] PossGainProcessor& processor;
 
     juce::Label heading;
 
