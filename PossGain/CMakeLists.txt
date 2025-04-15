@@ -29,6 +29,8 @@ target_sources(${BaseTargetName} PRIVATE
         Source/Processing/GainProcessor.hpp
         Source/Processing/PanProcessor.cpp
         Source/Processing/PanProcessor.hpp
+		Source/Processing/InputSelectionProcessor.cpp
+		Source/Processing/InputSelectionProcessor.hpp
 
         Source/Gui/PluginEditor.cpp
         Source/Gui/PluginEditor.hpp
