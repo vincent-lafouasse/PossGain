@@ -8,4 +8,4 @@ struct Buffer {
     float* right;
     std::size_t sz;
 };
-}
+}  // namespace Poss
