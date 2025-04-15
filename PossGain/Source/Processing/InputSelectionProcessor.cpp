@@ -1,7 +1,7 @@
 #include "InputSelectionProcessor.hpp"
 
-#include <utility>
 #include <algorithm>
+#include <utility>
 
 #include "JuceHeader.h"
 
