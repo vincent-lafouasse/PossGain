@@ -21,7 +21,7 @@ class InputPanel final : public juce::Component {
     juce::TextButton leftPhaseInvertButton;
     juce::TextButton rightPhaseInvertButton;
 
-    juce::ComboBox channelModeSelection;
+    juce::ComboBox inputMode;
 
     PercentageKnob widthSlider;
     juce::Label widthLabel;

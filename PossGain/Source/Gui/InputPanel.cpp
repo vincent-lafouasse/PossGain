@@ -23,7 +23,9 @@ InputPanel::InputPanel(PossGainProcessor& p)
     addAndMakeVisible(leftPhaseInvertButton);
     addAndMakeVisible(rightPhaseInvertButton);
 
-    addAndMakeVisible(channelModeSelection);
+    addAndMakeVisible(inputMode);
+    inputMode.addItemList({"Stereo", "Left", "Right", "Swap"}, 1);
+    inputMode.setSelectedId(1);
 
     this->setupWidthSlider();
 
@@ -82,7 +84,7 @@ void InputPanel::resized() {
         phaseInversalPanel.removeFromLeft(this->getWidth() / 2));
     rightPhaseInvertButton.setBounds(phaseInversalPanel);
 
-    channelModeSelection.setBounds(inputChannelPanel);
+    inputMode.setBounds(inputChannelPanel);
 
     constexpr int labelHeight = 20;
     widthLabel.setBounds(widthSliderPanel.removeFromTop(labelHeight));
