@@ -10,7 +10,7 @@
 
 #include "JuceHeader.h"
 
-#include "Processing/Processor.hpp"
+#include "Processing/GainProcessor.hpp"
 
 #include <array>
 

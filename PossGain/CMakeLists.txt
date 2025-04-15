@@ -25,6 +25,9 @@ target_sources(${BaseTargetName} PRIVATE
         Source/Processing/Processor.hpp
         Source/Processing/Buffer.hpp
 
+        Source/Processing/GainProcessor.cpp
+        Source/Processing/GainProcessor.hpp
+
         Source/Gui/PluginEditor.cpp
         Source/Gui/PluginEditor.hpp
 
