@@ -10,6 +10,8 @@
 
 #include "JuceHeader.h"
 
+#include "Processing/Processor.hpp"
+
 #include <array>
 
 #define LEFT 0

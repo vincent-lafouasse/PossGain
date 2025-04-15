@@ -22,6 +22,8 @@ target_sources(${BaseTargetName} PRIVATE
         Source/PossGain.cpp
         Source/PossGain.hpp
 
+        Source/Processing/Processor.hpp
+
         Source/Gui/PluginEditor.cpp
         Source/Gui/PluginEditor.hpp
 
