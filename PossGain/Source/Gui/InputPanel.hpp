@@ -6,7 +6,7 @@
 
 class InputPanel final : public juce::Component {
    public:
-    InputPanel(PossGainProcessor&);
+    explicit InputPanel(PossGainProcessor&);
     ~InputPanel() override;
     void paint(juce::Graphics&) override;
     void resized() override;

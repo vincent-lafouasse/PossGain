@@ -7,7 +7,7 @@
 
 class OutputPanel final : public juce::Component {
    public:
-    OutputPanel(PossGainProcessor&);
+    explicit OutputPanel(PossGainProcessor&);
     ~OutputPanel() override;
     void paint(juce::Graphics&) override;
     void resized() override;
