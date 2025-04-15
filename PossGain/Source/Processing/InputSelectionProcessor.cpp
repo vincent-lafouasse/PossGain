@@ -1,13 +1,13 @@
 #include "InputSelectionProcessor.hpp"
 
-#include <cassert>
 #include <utility>
+#include <algorithm>
 
 #include "JuceHeader.h"
 
 void InputSelectionProcessor::processBlock(Poss::Buffer& buffer) {
     if (this->mode == Mode::Swap) {
-        std::swap<float, buffer.sz>(buffer.left, buffer.right);
+        std::swap_ranges(buffer.left, buffer.left + buffer.sz, buffer.right);
     } else if (this->mode == Mode::Left) {
         std::memcpy(buffer.right, buffer.left, buffer.sz * sizeof(float));
     } else if (this->mode == Mode::Right) {
