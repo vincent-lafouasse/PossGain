@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Processor.hpp"
+#include "ProcessorBase/Processor.hpp"
 
 class GainProcessor final : public Poss::Processor {
    public:

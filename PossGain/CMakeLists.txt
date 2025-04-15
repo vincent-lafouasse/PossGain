@@ -22,8 +22,8 @@ target_sources(${BaseTargetName} PRIVATE
         Source/PossGain.cpp
         Source/PossGain.hpp
 
-        Source/Processing/Processor.hpp
-        Source/Processing/Buffer.hpp
+        Source/Processing/ProcessorBase/Processor.hpp
+        Source/Processing/ProcessorBase/Buffer.hpp
 
         Source/Processing/GainProcessor.cpp
         Source/Processing/GainProcessor.hpp
@@ -35,12 +35,12 @@ target_sources(${BaseTargetName} PRIVATE
 
         Source/Gui/OutputPanel.cpp
         Source/Gui/OutputPanel.hpp
-        Source/Gui/GainKnob.hpp
-        Source/Gui/BalanceKnob.hpp
-
         Source/Gui/InputPanel.cpp
         Source/Gui/InputPanel.hpp
-        Source/Gui/PercentageKnob.hpp
+
+        Source/Gui/Knobs/GainKnob.hpp
+        Source/Gui/Knobs/BalanceKnob.hpp
+        Source/Gui/Knobs/PercentageKnob.hpp
 )
 
 target_include_directories(${BaseTargetName} PUBLIC

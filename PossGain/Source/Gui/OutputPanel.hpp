@@ -1,7 +1,7 @@
 #pragma once
 
-#include "BalanceKnob.hpp"
-#include "GainKnob.hpp"
+#include "Knobs/BalanceKnob.hpp"
+#include "Knobs/GainKnob.hpp"
 #include "JuceHeader.h"
 #include "PossGain.hpp"
 

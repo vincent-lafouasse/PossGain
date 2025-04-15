@@ -1,7 +1,7 @@
 #pragma once
 
 #include "JuceHeader.h"
-#include "PercentageKnob.hpp"
+#include "Knobs/PercentageKnob.hpp"
 #include "PossGain.hpp"
 
 class InputPanel final : public juce::Component {
