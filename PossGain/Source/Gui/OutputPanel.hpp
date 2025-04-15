@@ -1,8 +1,8 @@
 #pragma once
 
+#include "JuceHeader.h"
 #include "Knobs/BalanceKnob.hpp"
 #include "Knobs/GainKnob.hpp"
-#include "JuceHeader.h"
 #include "PossGain.hpp"
 
 class OutputPanel final : public juce::Component {
