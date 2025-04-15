@@ -11,27 +11,7 @@
 #include "JuceHeader.h"
 
 #include "Processing/GainProcessor.hpp"
-
-#include <array>
-
-#define LEFT 0
-#define RIGHT 1
-
-struct StereoBuffer {
-    StereoBuffer(juce::AudioBuffer<float>& buffer) {
-        this->leftInput = buffer.getReadPointer(LEFT);
-        this->rightInput = buffer.getReadPointer(RIGHT);
-        this->leftOutput = buffer.getWritePointer(LEFT);
-        this->rightOutput = buffer.getWritePointer(RIGHT);
-        this->sz = buffer.getNumSamples();
-    }
-
-    const float* leftInput;
-    const float* rightInput;
-    float* leftOutput;
-    float* rightOutput;
-    int sz;
-};
+#include "Processing/PanProcessor.hpp"
 
 //==============================================================================
 /**
@@ -56,8 +36,6 @@ class PossGainProcessor : public juce::AudioProcessor
 #endif
 
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-    void applyGain(StereoBuffer&, float);
-    void applyPan(StereoBuffer&, float);
 
     //==============================================================================
     juce::AudioProcessorEditor* createEditor() override;
@@ -93,7 +71,7 @@ class PossGainProcessor : public juce::AudioProcessor
 
    private:
     GainProcessor gainProcessor;
-    std::array<float, 2> balance{};
+    PanProcessor panProcessor;
 
     static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
 

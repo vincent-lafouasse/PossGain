@@ -7,7 +7,6 @@
 */
 
 #include "PossGain.hpp"
-#include <atomic>
 #include "Gui/PluginEditor.hpp"
 
 const char* PossGainProcessor::gainParameterID = "gainID";
@@ -48,69 +47,33 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& juceBuffer,
         return;
     }
 
-    StereoBuffer buffer(juceBuffer);
-
-    Poss::Buffer __buffer{buffer.leftOutput, buffer.rightOutput,
-                          static_cast<std::size_t>(buffer.sz)};
+    Poss::Buffer buffer{juceBuffer.getWritePointer(0),
+                        juceBuffer.getWritePointer(1),
+                        static_cast<std::size_t>(juceBuffer.getNumSamples())};
     const float targetGain =
         muteButtonPressed
             ? 0.0f
             : parameters.getRawParameterValue(gainParameterID)->load();
 
     this->gainProcessor.setTargetGain(targetGain);
-    this->gainProcessor.processBlock(__buffer);
+    this->gainProcessor.processBlock(buffer);
 
     const float targetPan =
         parameters.getRawParameterValue(PossGainProcessor::balanceParameterID)
             ->load();
-    this->applyPan(buffer, targetPan);
-}
 
-namespace {
-std::array<float, 2> rawBalancetoBalance(const float value) {
-    float reducedGain = 1.0f - 2.0f * std::fabs(value - 0.5f);
-
-    if (value > 0.5f) {
-        // left
-        return {reducedGain, 1.0f};
-    } else {
-        // right
-        return {1.0f, reducedGain};
-    }
-}
-}  // namespace
-
-void PossGainProcessor::applyPan(StereoBuffer& buffer, float pan) {
-    const std::array<float, 2> targetBalance = rawBalancetoBalance(pan);
-
-    for (auto sample = 0; sample < buffer.sz; sample++) {
-        buffer.leftOutput[sample] =
-            this->balance[LEFT] * buffer.leftInput[sample];
-        buffer.rightOutput[sample] =
-            this->balance[RIGHT] * buffer.rightInput[sample];
-
-        if (!juce::approximatelyEqual(this->balance[LEFT],
-                                      targetBalance[LEFT])) {
-            constexpr float forwardWeight = 0.1f;
-            this->balance[LEFT] = (1.0f - forwardWeight) * this->balance[LEFT] +
-                                  forwardWeight * targetBalance[LEFT];
-        }
-        if (!juce::approximatelyEqual(this->balance[RIGHT],
-                                      targetBalance[RIGHT])) {
-            constexpr float forwardWeight = 0.1f;
-            this->balance[RIGHT] =
-                (1.0f - forwardWeight) * this->balance[RIGHT] +
-                forwardWeight * targetBalance[RIGHT];
-        }
-    }
+    this->panProcessor.setTargetPan(targetPan);
+    this->panProcessor.processBlock(buffer);
 }
 
 void PossGainProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     this->gainProcessor.prepareToPlay(sampleRate, samplesPerBlock);
+    this->panProcessor.prepareToPlay(sampleRate, samplesPerBlock);
 }
 
 void PossGainProcessor::releaseResources() {
     this->gainProcessor.releaseResources();
+    this->panProcessor.releaseResources();
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout
