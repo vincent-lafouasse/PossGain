@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include "JuceHeader.h"
+
 class InputSelectionProcessor final : public Poss::Processor {
    public:
     InputSelectionProcessor() = default;
@@ -23,7 +25,7 @@ class InputSelectionProcessor final : public Poss::Processor {
 
     void setMode(Mode mode);
 
-    static std::vector<const char*> inputModeNames() {
+    static juce::StringArray inputModeNames() {
         return {"Stereo", "Left ", "Right ", "Swap"};
     }
 

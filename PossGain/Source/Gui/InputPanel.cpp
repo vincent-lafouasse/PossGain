@@ -1,6 +1,8 @@
 #include "InputPanel.hpp"
 #include "PossGain.hpp"
 
+#include "Processing/InputSelectionProcessor.hpp"
+
 InputPanel::InputPanel(PossGainProcessor& p)
     : processor(p),
       leftPhaseInvertButton("ϕL"),
@@ -24,7 +26,7 @@ InputPanel::InputPanel(PossGainProcessor& p)
     addAndMakeVisible(rightPhaseInvertButton);
 
     addAndMakeVisible(inputMode);
-    inputMode.addItemList({"Stereo", "Left", "Right", "Swap"}, 1);
+    inputMode.addItemList(InputSelectionProcessor::inputModeNames(), 1);
     inputMode.setSelectedId(1);
 
     this->setupWidthSlider();
