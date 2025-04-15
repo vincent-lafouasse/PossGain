@@ -4,7 +4,11 @@
 
 namespace Poss {
 class Processor {
-public:
+   public:
     virtual void processBlock(Buffer&) = 0;
+
+    virtual void prepareToPlay(double sampleRate,
+                               int maximumExpectedSamplesPerBlock) = 0;
+    virtual void releaseResources() = 0;
 };
-}
+}  // namespace Poss
