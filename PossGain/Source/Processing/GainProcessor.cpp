@@ -2,8 +2,19 @@
 
 #include <cassert>
 
+#include "JuceHeader.h"
+
 void GainProcessor::processBlock(Poss::Buffer& buffer) {
-    (void)buffer;
+    for (std::size_t sample = 0; sample < buffer.sz; ++sample) {
+        buffer.left[sample] = this->gain * buffer.left[sample];
+        buffer.right[sample] = this->gain * buffer.right[sample];
+
+        if (!juce::approximatelyEqual(this->gain, this->targetGain)) {
+            this->gain =
+                GainProcessor::smoothingForwardWeight * this->targetGain +
+                (1.0f - GainProcessor::smoothingForwardWeight) * this->gain;
+        }
+    }
 }
 
 void GainProcessor::setTargetGain(float target) {

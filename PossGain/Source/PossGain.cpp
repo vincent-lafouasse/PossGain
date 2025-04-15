@@ -42,36 +42,28 @@ void PossGainProcessor::processBlock(juce::AudioBuffer<float>& juceBuffer,
     const bool muteButtonPressed =
         parameters.getRawParameterValue(muteParameterID)->load() > 0.5;
 
-    if (muteButtonPressed && juce::approximatelyEqual(this->gain, 0.0f)) {
+    if (muteButtonPressed &&
+        juce::approximatelyEqual(this->gainProcessor.getCurrentGain(), 0.0f)) {
         juceBuffer.clear();
         return;
     }
 
     StereoBuffer buffer(juceBuffer);
 
+    Poss::Buffer __buffer{buffer.leftOutput, buffer.rightOutput,
+                          static_cast<std::size_t>(buffer.sz)};
     const float targetGain =
         muteButtonPressed
             ? 0.0f
             : parameters.getRawParameterValue(gainParameterID)->load();
-    this->applyGain(buffer, targetGain);
+
+    this->gainProcessor.setTargetGain(targetGain);
+    this->gainProcessor.processBlock(__buffer);
 
     const float targetPan =
         parameters.getRawParameterValue(PossGainProcessor::balanceParameterID)
             ->load();
     this->applyPan(buffer, targetPan);
-}
-
-void PossGainProcessor::applyGain(StereoBuffer& buffer, float targetGain) {
-    for (auto sample = 0; sample < buffer.sz; sample++) {
-        buffer.leftOutput[sample] = this->gain * buffer.leftInput[sample];
-        buffer.rightOutput[sample] = this->gain * buffer.rightInput[sample];
-
-        if (!juce::approximatelyEqual(this->gain, targetGain)) {
-            constexpr float forwardWeight = 0.05f;
-            this->gain = (1.0f - forwardWeight) * this->gain +
-                         forwardWeight * targetGain;
-        }
-    }
 }
 
 namespace {
@@ -113,10 +105,13 @@ void PossGainProcessor::applyPan(StereoBuffer& buffer, float pan) {
     }
 }
 
-void PossGainProcessor::prepareToPlay(double /*sampleRate*/,
-                                      int /*samplesPerBlock*/) {}
+void PossGainProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
+    this->gainProcessor.prepareToPlay(sampleRate, samplesPerBlock);
+}
 
-void PossGainProcessor::releaseResources() {}
+void PossGainProcessor::releaseResources() {
+    this->gainProcessor.releaseResources();
+}
 
 juce::AudioProcessorValueTreeState::ParameterLayout
 PossGainProcessor::createLayout() {

@@ -92,7 +92,7 @@ class PossGainProcessor : public juce::AudioProcessor
     static const char* balanceParameterName;
 
    private:
-    float gain{};
+    GainProcessor gainProcessor;
     std::array<float, 2> balance{};
 
     static juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
