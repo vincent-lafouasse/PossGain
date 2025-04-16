@@ -32,6 +32,7 @@ PossGainProcessor::PossGainProcessor()
                  PossGainProcessor::createLayout())
 
 {
+    static_assert(std::atomic<float>::is_always_lock_free);
 }
 
 PossGainProcessor::~PossGainProcessor() = default;
