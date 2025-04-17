@@ -1,9 +1,10 @@
 #include "gtest/gtest.h"
 
-#include "JuceHeader.h"
+#include "Processing/GainProcessor.hpp"
 
 TEST(GainProcessor, Dummy)
 {
-    juce::String("let's make sure this links correctly");
+    GainProcessor processor {};
+    (void)processor;
     SUCCEED();
 }

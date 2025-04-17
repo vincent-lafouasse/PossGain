@@ -11,3 +11,11 @@ include(cmake/fetch_gtest.cmake)
 
 add_subdirectory(lib/juce)
 add_subdirectory(PossGain)
+
+add_subdirectory(test)
+
+include(CTest)
+enable_testing()
+
+add_test(NAME GainProcessorTest
+         COMMAND GainProcessorTest)

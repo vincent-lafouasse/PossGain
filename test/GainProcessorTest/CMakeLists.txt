@@ -1,26 +1,34 @@
-set(target_name GainProcessorTest)
-add_executable(${target_name})
+set(targetName GainProcessorTest)
 
-set(tested_source
-	${tokenize_module}
-	${error_module}
-	${log_module}
+juce_add_console_app(${targetName}
+	PROJECT_NAME "GainProcessor tests"
+)
+juce_generate_juce_header(${targetName})
+
+set(testedSourceDir ${CMAKE_SOURCE_DIR}/PossGain/Source)
+target_sources(${targetName} PRIVATE
+	./main.cpp
+	./GainProcessorTest.cpp
+
+	${testedSourceDir}/Processing/ProcessorBase/Buffer.hpp
+	${testedSourceDir}/Processing/ProcessorBase/Processor.hpp
+	${testedSourceDir}/Processing/GainProcessor.cpp
+	${testedSourceDir}/Processing/GainProcessor.hpp
 )
 
-target_sources(lexer_test PRIVATE
-	${CMAKE_CURRENT_LIST_DIR}/main.cpp
-	${CMAKE_CURRENT_LIST_DIR}/token_list.cpp
-	${CMAKE_CURRENT_LIST_DIR}/tokenize.cpp
-
-	${tested_source}
+target_include_directories(${targetName} PUBLIC
+	./
+	${testedSourceDir}
 )
 
-target_include_directories(lexer_test PUBLIC
-	${CMAKE_CURRENT_LIST_DIR}
-	${tested_include_dir}
-)
+target_compile_definitions(${targetName} PRIVATE
+        JUCE_WEB_BROWSER=0
+        JUCE_USE_CURL=0)
 
-target_link_libraries(lexer_test
-	libgtest
-	libft
+target_link_libraries(${targetName} PRIVATE
+        libgtest
+        juce_recommended_config_flags
+        juce_recommended_lto_flags
+        juce_recommended_warning_flags
+        juce_core
 )
