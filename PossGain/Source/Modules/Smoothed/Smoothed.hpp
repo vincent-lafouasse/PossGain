@@ -3,6 +3,10 @@
 #include <array>
 #include <cstddef>
 
+// a 1 pole low pass filter that smoothes step functions
+// of the form y[n] = beta * y[n - 1] + (1 - beta) * x[n]
+// where ln(beta) = - cutoff_pulsation * sampling_period
+//
 template <typename FloatType, std::size_t N>
 class Smoothed {
 public:
