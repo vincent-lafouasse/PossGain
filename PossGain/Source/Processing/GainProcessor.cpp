@@ -1,33 +1,27 @@
 #include "GainProcessor.hpp"
 
-#include <cassert>
-
-#include "JuceHeader.h"
-
 void GainProcessor::processBlock(Poss::Buffer& buffer) {
-    for (std::size_t sample = 0; sample < buffer.sz; ++sample) {
-        buffer.left[sample] = this->gain * buffer.left[sample];
-        buffer.right[sample] = this->gain * buffer.right[sample];
+    float actual_gain;
 
-        if (!juce::approximatelyEqual(this->gain, this->targetGain)) {
-            this->gain =
-                GainProcessor::smoothingForwardWeight * this->targetGain +
-                (1.0f - GainProcessor::smoothingForwardWeight) * this->gain;
-        }
+    for (std::size_t sample = 0; sample < buffer.sz; ++sample) {
+        actual_gain = gain.get();
+        buffer.left[sample] = actual_gain * buffer.left[sample];
+        buffer.right[sample] = actual_gain * buffer.right[sample];
     }
 }
 
 void GainProcessor::setTargetGain(float target) {
-    this->targetGain = target;
+    gain.setTarget(target);
 }
 
 float GainProcessor::getCurrentGain() const {
-    return this->gain;
+    return gain.peek();
 }
 
-void GainProcessor::prepareToPlay(double /*sampleRate*/,
+void GainProcessor::prepareToPlay(double sampleRate,
                                   int /*maximumExpectedSamplesPerBlock*/) {
-    assert(GainProcessor::smoothingForwardWeight > 0.0f &&
-           GainProcessor::smoothingForwardWeight < 1.0f);
+    gain.setSampleRate(static_cast<float>(sampleRate));
+    gain.setDecayUs(10000);
+    gain.setTarget(0.0f);
 }
 void GainProcessor::releaseResources() {}

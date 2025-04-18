@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ProcessorBase/Processor.hpp"
+#include "Modules/Smoothed/Smoothed.hpp"
 
 class GainProcessor final : public Poss::Processor {
    public:
@@ -16,7 +17,5 @@ class GainProcessor final : public Poss::Processor {
     float getCurrentGain() const;
 
    private:
-    float targetGain{};
-    float gain{};
-    static constexpr float smoothingForwardWeight = 0.05f;
+   Poss::Smoothed<float> gain;
 };

@@ -3,6 +3,8 @@
 #include <cmath>
 #include "JuceHeader.h"
 
+namespace Poss {
+
 // a 1 pole low pass filter that smoothes step functions
 // of the form y[n] = beta * y[n - 1] + (1 - beta) * x[n]
 // where ln(beta) = - twoPi / (tau * sampleRate)
@@ -20,10 +22,10 @@ class Smoothed {
         constexpr float threshold = 0.99f;
         float tau =
             1e-6f * static_cast<float>(decayUs) / (-std::log(threshold));
-        this->beta = std::exp(-1.0 / (tau * this->sampleRate));
+        this->beta = std::expf(-1.0f / (tau * this->sampleRate));
     }
 
-    void setTarget(FloatType target) { this->target = target; }
+    void setTarget(FloatType newTarget) { this->target = newTarget; }
 
     FloatType get() {
         if (juce::approximatelyEqual(this->memory, this->target)) {
@@ -33,6 +35,10 @@ class Smoothed {
         return memory;
     }
 
+    FloatType peek() const {
+        return this->memory;
+    }
+
    private:
     FloatType memory;
     FloatType target;
@@ -40,3 +46,4 @@ class Smoothed {
     float beta;
     float sampleRate = 44100;
 };
+} // namespace Poss
