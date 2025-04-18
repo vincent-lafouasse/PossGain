@@ -35,9 +35,7 @@ class Smoothed {
         return memory;
     }
 
-    FloatType peek() const {
-        return this->memory;
-    }
+    FloatType peek() const { return this->memory; }
 
    private:
     FloatType memory;
@@ -46,4 +44,4 @@ class Smoothed {
     float beta;
     float sampleRate = 44100;
 };
-} // namespace Poss
+}  // namespace Poss
