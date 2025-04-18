@@ -12,7 +12,7 @@ namespace Poss {
 template <typename FloatType>
 class Smoothed {
    public:
-    Smoothed();
+    Smoothed() = default;
 
     void setSampleRate(float newSampleRate) {
         this->sampleRate = newSampleRate;
