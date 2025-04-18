@@ -43,6 +43,8 @@ target_sources(${BaseTargetName} PRIVATE
         Source/Gui/Knobs/GainKnob.hpp
         Source/Gui/Knobs/BalanceKnob.hpp
         Source/Gui/Knobs/PercentageKnob.hpp
+
+        Source/Modules/Smoothed/Smoothed.hpp
 )
 
 target_include_directories(${BaseTargetName} PUBLIC

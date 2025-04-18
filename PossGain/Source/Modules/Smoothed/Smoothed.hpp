@@ -1,28 +1,42 @@
 #pragma once
 
-#include <array>
-#include <cstddef>
+#include <cmath>
+#include "JuceHeader.h"
 
 // a 1 pole low pass filter that smoothes step functions
 // of the form y[n] = beta * y[n - 1] + (1 - beta) * x[n]
 // where ln(beta) = - twoPi / (tau * sampleRate)
 //
-template <typename FloatType, std::size_t N>
+template <typename FloatType>
 class Smoothed {
-public:
-	Smoothed();
+   public:
+    Smoothed();
 
-	void setSampleRate(float sampleRate);
+    void setSampleRate(float newSampleRate) {
+        this->sampleRate = newSampleRate;
+    }
 
-	void setTarget(FloatType target, std::size_t channel);
-	void setTarget(FloatType target);
+    void setDecayUs(int decayUs) {
+        constexpr float threshold = 0.99f;
+        float tau =
+            1e-6f * static_cast<float>(decayUs) / (-std::log(threshold));
+        this->beta = std::exp(-1.0 / (tau * this->sampleRate));
+    }
 
-	FloatType get(std::size_t channel);
-	FloatType get();
+    void setTarget(FloatType target) { this->target = target; }
 
-private:
-	std::array<FloatType, N> memory;
-	std::array<FloatType, N> targets;
+    FloatType get() {
+        if (juce::approximatelyEqual(this->memory, this->target)) {
+            return this->target;
+        }
+        memory = beta * memory + (1.0f - beta) * target;
+        return memory;
+    }
 
-	float sampleRate = 44100;
+   private:
+    FloatType memory;
+    FloatType target;
+
+    float beta;
+    float sampleRate = 44100;
 };
