@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cmath>
 #include <juce_core/juce_core.h>
+#include <cmath>
 
 namespace Poss {
 

@@ -6,7 +6,6 @@
 #include "Knobs/GainKnob.hpp"
 #include "PossGain.hpp"
 
-
 class OutputPanel final : public juce::Component {
    public:
     explicit OutputPanel(PossGainProcessor&);
