@@ -3,7 +3,6 @@ set(targetName GainProcessorTest)
 juce_add_console_app(${targetName}
     PROJECT_NAME "GainProcessor tests"
 )
-juce_generate_juce_header(${targetName})
 
 set(testedSourceDir ${CMAKE_SOURCE_DIR}/PossGain/Source)
 target_sources(${targetName} PRIVATE
