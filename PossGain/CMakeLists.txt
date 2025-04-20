@@ -1,6 +1,6 @@
-set (BaseTargetName PossGain)
+set (Plugin PossGain)
 
-juce_add_plugin("${BaseTargetName}"
+juce_add_plugin("${Plugin}"
         # VERSION ...                               # Set this if the plugin version is different to the project version
         # ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
         # ICON_SMALL ...
@@ -14,9 +14,10 @@ juce_add_plugin("${BaseTargetName}"
         PLUGIN_MANUFACTURER_CODE Juce
         PLUGIN_CODE MIpl
         FORMATS AU VST3 Standalone
-        PRODUCT_NAME "PossGain")
+        PRODUCT_NAME "PossGain"
+)
 
-target_sources(${BaseTargetName} PRIVATE
+target_sources(${Plugin} PRIVATE
         Source/PossGain.cpp
         Source/PossGain.hpp
 
@@ -45,18 +46,20 @@ target_sources(${BaseTargetName} PRIVATE
         Source/Modules/Smoothed/Smoothed.hpp
 )
 
-target_include_directories(${BaseTargetName} PUBLIC
+target_include_directories(${Plugin}
+        PUBLIC
         Source/
 )
 
-target_compile_definitions(${BaseTargetName}
+target_compile_definitions(${Plugin}
         PUBLIC
         JUCE_WEB_BROWSER=0
         JUCE_USE_CURL=0
         JUCE_VST3_CAN_REPLACE_VST2=0
 )
 
-target_link_libraries(${BaseTargetName} PRIVATE
+target_link_libraries(${Plugin}
+        PRIVATE
         juce_audio_utils
         juce_recommended_config_flags
         juce_recommended_lto_flags

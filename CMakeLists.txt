@@ -18,4 +18,5 @@ include(CTest)
 enable_testing()
 
 add_test(NAME GainProcessorTest
-         COMMAND GainProcessorTest)
+         COMMAND GainProcessorTest
+)
