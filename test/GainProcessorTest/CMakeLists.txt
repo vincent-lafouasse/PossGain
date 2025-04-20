@@ -30,7 +30,7 @@ target_compile_definitions(${targetName}
 
 target_link_libraries(${targetName}
         PRIVATE
-        libgtest
+        gtest
         juce_recommended_config_flags
         juce_recommended_lto_flags
         juce_recommended_warning_flags
