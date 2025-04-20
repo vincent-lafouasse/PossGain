@@ -2,9 +2,7 @@
 
 #include "ProcessorBase/Processor.hpp"
 
-#include <vector>
-
-#include "JuceHeader.h"
+#include <juce_core/juce_core.h>
 
 class InputSelectionProcessor final : public Poss::Processor {
    public:

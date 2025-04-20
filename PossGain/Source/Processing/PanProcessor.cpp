@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include "JuceHeader.h"
+#include <juce_core/juce_core.h>
 
 #define LEFT 0
 #define RIGHT 1

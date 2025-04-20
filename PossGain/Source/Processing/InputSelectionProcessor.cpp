@@ -1,9 +1,6 @@
 #include "InputSelectionProcessor.hpp"
 
 #include <algorithm>
-#include <utility>
-
-#include "JuceHeader.h"
 
 void InputSelectionProcessor::processBlock(Poss::Buffer& buffer) {
     if (this->mode == Mode::Swap) {
