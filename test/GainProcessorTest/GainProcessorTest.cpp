@@ -5,10 +5,11 @@
 #include "Processing/GainProcessor.hpp"
 
 namespace {
-    constexpr float sampleRate = 1e6f; // 1 us per sample
-    constexpr std::size_t nSamplesOneMillisecond = static_cast<std::size_t>(1e-3f * sampleRate);
-    constexpr int ignored = 0;
-}
+constexpr float sampleRate = 1e6f;  // 1 us per sample
+constexpr std::size_t nSamplesOneMillisecond =
+    static_cast<std::size_t>(1e-3f * sampleRate);
+constexpr int ignored = 0;
+}  // namespace
 
 TEST(GainProcessor, NewGainProcessorHasZeroGain) {
     GainProcessor processor{};
